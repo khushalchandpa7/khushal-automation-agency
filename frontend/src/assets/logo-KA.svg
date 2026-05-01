@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" role="img" aria-labelledby="title desc">
+  <title id="title">KA logo</title>
+  <desc id="desc">Rounded teal app icon with a white KA mark and dark green arrow accents.</desc>
+  <defs>
+    <filter id="soft-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#009B83" flood-opacity="0.16"/>
+    </filter>
+    <linearGradient id="accent" x1="1408" y1="282" x2="1766" y2="1766" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#075B4A"/>
+      <stop offset="1" stop-color="#026652"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="2048" height="2048" rx="1024" ry="1024" fill="#00C092"/>
+
+  <g id="logo-mark" transform="translate(1024 1024) scale(0.72) translate(-1024 -1024)">
+  <g filter="url(#soft-shadow)">
+    <rect x="259" y="207" width="200" height="1636" rx="100" fill="#FFFFFF"/>
+    <path
+      fill="#FFFFFF"
+      d="M 455 1024
+         C 455 992 469 958 494 933
+         L 1004 438
+         C 1043 400 1093 409 1148 409
+         H 1429
+         L 1561 512
+         L 1429 615
+         H 1117
+         L 707 1024
+         L 1117 1435
+         H 1429
+         L 1561 1536
+         L 1429 1640
+         H 1148
+         C 1093 1640 1043 1648 1004 1610
+         L 494 1115
+         C 469 1090 455 1056 455 1024
+         Z"/>
+  </g>
+
+  <path
+    d="M 1485 360 L 1690 512 L 1485 665"
+    fill="none"
+    stroke="url(#accent)"
+    stroke-width="150"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+  <path
+    d="M 1485 1383 L 1690 1536 L 1485 1689"
+    fill="none"
+    stroke="url(#accent)"
+    stroke-width="150"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+  </g>
+</svg>
