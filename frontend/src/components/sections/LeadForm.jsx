@@ -118,7 +118,7 @@ function LeadForm() {
           ) : (
             <form
               onSubmit={handleSubmit}
-              className="rounded-3xl bg-white border border-ink-base/10 p-8 space-y-5"
+              className="rounded-3xl bg-surface-base border border-surface-strong p-8 space-y-5"
               noValidate
             >
               {/* Honeypot — humans never see, bots fill it. */}
@@ -151,7 +151,7 @@ function LeadForm() {
                   value={form.name}
                   onChange={(e) => setField("name", e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full px-4 py-3 rounded-xl border border-ink-base/15 focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-surface-strong focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors"
                   placeholder="Your name"
                 />
                 <FieldError messages={fieldErrors.name} />
@@ -170,7 +170,7 @@ function LeadForm() {
                   value={form.email}
                   onChange={(e) => setField("email", e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full px-4 py-3 rounded-xl border border-ink-base/15 focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-surface-strong focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors"
                   placeholder="you@company.com"
                 />
                 <FieldError messages={fieldErrors.email} />
@@ -189,7 +189,7 @@ function LeadForm() {
                   value={form.company}
                   onChange={(e) => setField("company", e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full px-4 py-3 rounded-xl border border-ink-base/15 focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-xl border border-surface-strong focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors"
                   placeholder="Acme Co."
                 />
                 <FieldError messages={fieldErrors.company} />
@@ -208,7 +208,7 @@ function LeadForm() {
                   value={form.painPoints}
                   onChange={(e) => setField("painPoints", e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full px-4 py-3 rounded-xl border border-ink-base/15 focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-surface-strong focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors resize-none"
                   placeholder="e.g. Every Monday I copy 200 invoices from email into a spreadsheet, then chase down line items that don't match…"
                 />
                 <FieldError messages={fieldErrors.painPoints} />

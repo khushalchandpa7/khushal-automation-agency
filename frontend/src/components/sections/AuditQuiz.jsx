@@ -112,19 +112,19 @@ function AuditQuiz() {
         eyebrow="Free automation audit"
         title="Answer five questions and get a starting point."
         lede="The quiz helps colder visitors self-qualify, and it gives us useful context before the first call."
-        className="bg-white/45"
+        className="bg-surface-base/55"
       >
         <div className="grid lg:grid-cols-5 gap-6">
           <div
             data-entrance
-            className="lg:col-span-3 rounded-3xl border border-ink-base/8 bg-white p-7 md:p-8 shadow-soft"
+            className="lg:col-span-3 rounded-3xl border border-surface-border bg-surface-base p-7 md:p-8 shadow-soft"
           >
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-semibold text-ink-subtle">
                 Question {Math.min(step + 1, questions.length)} of{" "}
                 {questions.length}
               </p>
-              <div className="h-2 w-36 overflow-hidden rounded-full bg-ink-base/8">
+              <div className="h-2 w-36 overflow-hidden rounded-full bg-surface-strong">
                 <div
                   className="h-full rounded-full bg-accent-mint transition-all"
                   style={{
@@ -149,7 +149,7 @@ function AuditQuiz() {
                     className={`rounded-2xl border p-4 text-left text-sm font-semibold transition-colors ${
                       selected
                         ? "border-accent-mint bg-accent-mint/20"
-                        : "border-ink-base/10 bg-bg-base hover:border-accent-mint/50"
+                        : "border-surface-strong bg-surface-soft hover:border-accent-mint/50"
                     }`}
                   >
                     {option}
@@ -180,25 +180,25 @@ function AuditQuiz() {
 
           <aside
             data-entrance
-            className="lg:col-span-2 rounded-3xl bg-ink-base p-7 md:p-8 text-bg-base shadow-lift"
+            className="lg:col-span-2 rounded-3xl bg-panel-base p-7 md:p-8 text-panel-text shadow-lift"
           >
-            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent-mint text-ink-base">
+            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent-mint text-accent-contrast">
               <ClipboardCheck size={24} />
             </span>
-            <p className="mt-6 text-sm font-semibold text-bg-base/60">
+            <p className="mt-6 text-sm font-semibold text-panel-muted">
               Suggested automation type
             </p>
             <h3 className="mt-2 text-2xl font-semibold">
               {complete ? recommendation.title : "Finish the quiz"}
             </h3>
-            <p className="mt-4 text-sm leading-relaxed text-bg-base/75">
+            <p className="mt-4 text-sm leading-relaxed text-panel-muted">
               {complete
                 ? recommendation.body
                 : "Your recommendation updates as soon as all five answers are selected."}
             </p>
 
             {complete && (
-              <div className="mt-6 rounded-2xl bg-bg-base/8 p-5 text-sm text-bg-base/75">
+              <div className="mt-6 rounded-2xl bg-panel-soft p-5 text-sm text-panel-muted">
                 <p>
                   We will attach these answers to your lead request so the first
                   call starts with the right workflow context.

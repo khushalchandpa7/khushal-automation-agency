@@ -10,10 +10,10 @@ const sizeMap = {
 };
 
 const toneMap = {
-  default: "bg-white border border-ink-base/8",
-  ink: "bg-ink-base text-bg-base",
-  mint: "bg-accent-mint text-ink-base",
-  tangerine: "bg-accent-tangerine text-ink-base",
+  default: "bg-surface-base border border-surface-border",
+  ink: "bg-panel-base text-panel-text",
+  mint: "bg-accent-mint text-accent-contrast",
+  tangerine: "bg-accent-tangerine text-accent-contrast",
 };
 
 function BentoCard({

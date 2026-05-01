@@ -86,10 +86,10 @@ function RoiCalculator() {
         <div className="grid lg:grid-cols-5 gap-6">
           <div
             data-entrance
-            className="lg:col-span-3 rounded-3xl bg-white border border-ink-base/8 p-7 md:p-8 shadow-soft"
+            className="lg:col-span-3 rounded-3xl bg-surface-base border border-surface-border p-7 md:p-8 shadow-soft"
           >
             <div className="grid md:grid-cols-3 gap-5">
-              <label className="block rounded-2xl border border-ink-base/10 p-5">
+              <label className="block rounded-2xl border border-surface-strong p-5">
                 <span className="flex items-center gap-2 text-sm font-semibold">
                   <Clock3 size={17} className="text-accent-mint-deep" />
                   Hours wasted/week
@@ -104,7 +104,7 @@ function RoiCalculator() {
                 />
               </label>
 
-              <label className="block rounded-2xl border border-ink-base/10 p-5">
+              <label className="block rounded-2xl border border-surface-strong p-5">
                 <span className="flex items-center gap-2 text-sm font-semibold">
                   <DollarSign size={17} className="text-accent-mint-deep" />
                   Hourly team cost
@@ -119,7 +119,7 @@ function RoiCalculator() {
                 />
               </label>
 
-              <label className="block rounded-2xl border border-ink-base/10 p-5">
+              <label className="block rounded-2xl border border-surface-strong p-5">
                 <span className="flex items-center gap-2 text-sm font-semibold">
                   <Users size={17} className="text-accent-mint-deep" />
                   People involved
@@ -152,7 +152,7 @@ function RoiCalculator() {
                       className={`rounded-full border px-3 py-2 text-sm font-medium transition-colors ${
                         selected
                           ? "border-accent-mint bg-accent-mint/20 text-ink-base"
-                          : "border-ink-base/10 bg-bg-base text-ink-muted hover:border-accent-mint/50"
+                          : "border-surface-strong bg-surface-soft text-ink-muted hover:border-accent-mint/50"
                       }`}
                     >
                       {tool}
@@ -165,13 +165,13 @@ function RoiCalculator() {
 
           <aside
             data-entrance
-            className="lg:col-span-2 rounded-3xl bg-ink-base p-7 md:p-8 text-bg-base shadow-lift"
+            className="lg:col-span-2 rounded-3xl bg-panel-base p-7 md:p-8 text-panel-text shadow-lift"
           >
             <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent-mint text-ink-base">
+              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent-mint text-accent-contrast">
                 <Calculator size={22} />
               </span>
-              <p className="text-sm font-semibold text-bg-base/70">
+              <p className="text-sm font-semibold text-panel-muted">
                 Estimated manual-work loss
               </p>
             </div>
@@ -179,10 +179,10 @@ function RoiCalculator() {
             <p className="mt-8 text-5xl font-semibold tracking-tight">
               {formatter.format(monthlyLoss)}
             </p>
-            <p className="mt-2 text-bg-base/70">per month</p>
+            <p className="mt-2 text-panel-muted">per month</p>
 
-            <div className="mt-8 rounded-2xl bg-bg-base/8 p-5">
-              <p className="text-sm text-bg-base/70">Annual drag</p>
+            <div className="mt-8 rounded-2xl bg-panel-soft p-5">
+              <p className="text-sm text-panel-muted">Annual drag</p>
               <p className="mt-1 text-2xl font-semibold">
                 {formatter.format(annualLoss)}
               </p>

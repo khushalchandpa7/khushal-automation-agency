@@ -60,7 +60,7 @@ function WorkflowDemos() {
             <article
               key={demo.title}
               data-entrance
-              className="rounded-3xl border border-ink-base/8 bg-white p-7 shadow-soft"
+              className="rounded-3xl border border-surface-border bg-surface-base p-7 shadow-soft"
             >
               <h3 className="text-xl font-semibold">{demo.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-ink-muted">
@@ -76,19 +76,19 @@ function WorkflowDemos() {
                       {!isLast && (
                         <span
                           aria-hidden="true"
-                          className="absolute left-5 top-11 h-7 w-px bg-ink-base/10"
+                          className="absolute left-5 top-11 h-7 w-px bg-surface-strong"
                         />
                       )}
                       <span
                         className={`relative z-10 grid h-10 w-10 flex-shrink-0 place-items-center rounded-2xl ${
                           index === 1
-                            ? "bg-accent-mint text-ink-base animate-pulse"
-                            : "bg-bg-base text-ink-muted"
+                            ? "bg-accent-mint text-accent-contrast animate-pulse"
+                            : "bg-surface-soft text-ink-muted"
                         }`}
                       >
                         <Icon size={18} />
                       </span>
-                      <div className="min-w-0 rounded-2xl border border-ink-base/8 bg-bg-base px-4 py-2 text-sm font-medium text-ink-base">
+                      <div className="min-w-0 rounded-2xl border border-surface-border bg-surface-soft px-4 py-2 text-sm font-medium text-ink-base">
                         {step.label}
                       </div>
                     </div>

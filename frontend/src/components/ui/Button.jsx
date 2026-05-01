@@ -1,10 +1,10 @@
 const variants = {
   primary:
-    "bg-accent-mint text-ink-base hover:bg-accent-mint-deep shadow-soft",
+    "bg-accent-mint text-accent-contrast hover:bg-accent-mint-deep shadow-soft",
   secondary:
-    "bg-ink-base text-bg-base hover:bg-ink-muted",
+    "bg-panel-base text-panel-text hover:bg-panel-base/85",
   ghost:
-    "border border-ink-base/15 text-ink-base hover:border-accent-tangerine hover:text-accent-tangerine",
+    "border border-surface-strong text-ink-base hover:border-accent-tangerine hover:text-accent-tangerine",
 };
 
 const sizes = {

@@ -43,7 +43,7 @@ function Process() {
             <li
               key={step.title}
               data-entrance
-              className="rounded-3xl border border-ink-base/8 p-7 bg-white hover:border-accent-mint/40 hover:-translate-y-1 transition-all duration-300"
+              className="rounded-3xl border border-surface-border p-7 bg-surface-base hover:border-accent-mint/40 hover:-translate-y-1 transition-all duration-300"
             >
               <div className="flex items-center justify-between mb-5">
                 <span className="text-xs font-mono font-semibold text-ink-subtle">

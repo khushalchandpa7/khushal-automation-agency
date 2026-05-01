@@ -90,14 +90,14 @@ function CaseStudyModal({ project, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 grid place-items-center bg-ink-base/55 px-4 py-8 backdrop-blur-sm"
+      className="fixed inset-0 z-50 grid place-items-center bg-panel-base/70 px-4 py-8 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="case-study-title"
       onMouseDown={onClose}
     >
       <div
-        className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-bg-base p-6 shadow-lift md:p-8"
+        className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-surface-base p-6 shadow-lift md:p-8"
         onMouseDown={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-6">
@@ -115,7 +115,7 @@ function CaseStudyModal({ project, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-full border border-ink-base/10 bg-white text-ink-muted transition-colors hover:text-ink-base"
+            className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-full border border-surface-strong bg-surface-base text-ink-muted transition-colors hover:text-ink-base"
             aria-label="Close case study"
           >
             <X size={18} />
@@ -123,13 +123,13 @@ function CaseStudyModal({ project, onClose }) {
         </div>
 
         <div className="mt-8 grid gap-5 md:grid-cols-3">
-          <section className="rounded-2xl border border-ink-base/8 bg-white p-5">
+          <section className="rounded-2xl border border-surface-border bg-surface-base p-5">
             <h4 className="font-semibold">Problem</h4>
             <p className="mt-3 text-sm leading-relaxed text-ink-muted">
               {detail.problem}
             </p>
           </section>
-          <section className="rounded-2xl border border-ink-base/8 bg-white p-5">
+          <section className="rounded-2xl border border-surface-border bg-surface-base p-5">
             <h4 className="font-semibold">Result</h4>
             <p className="mt-3 text-sm leading-relaxed text-ink-muted">
               {detail.result}
@@ -143,11 +143,11 @@ function CaseStudyModal({ project, onClose }) {
           </section>
         </div>
 
-        <section className="mt-6 rounded-2xl border border-ink-base/8 bg-white p-5">
+        <section className="mt-6 rounded-2xl border border-surface-border bg-surface-base p-5">
           <h4 className="font-semibold">Workflow map</h4>
           <ol className="mt-5 grid gap-3 md:grid-cols-4">
             {detail.workflow.map((step, index) => (
-              <li key={step} className="relative rounded-2xl bg-bg-base p-4">
+              <li key={step} className="relative rounded-2xl bg-surface-soft p-4">
                 <span className="text-xs font-mono font-semibold text-accent-mint-deep">
                   0{index + 1}
                 </span>
@@ -163,7 +163,7 @@ function CaseStudyModal({ project, onClose }) {
             {(project.toolsUsed || []).map((tool) => (
               <span
                 key={tool}
-                className="rounded-full bg-ink-base/5 px-3 py-1.5 text-xs font-semibold text-ink-muted"
+                className="rounded-full bg-surface-soft px-3 py-1.5 text-xs font-semibold text-ink-muted"
               >
                 {tool}
               </span>
@@ -244,7 +244,7 @@ function Portfolio() {
               <article
                 key={p.id}
                 data-entrance
-                className="rounded-3xl border border-ink-base/8 bg-white p-8 shadow-soft transition-shadow hover:shadow-lift"
+                className="rounded-3xl border border-surface-border bg-surface-base p-8 shadow-soft transition-shadow hover:shadow-lift"
               >
                 <h3 className="text-xl font-semibold leading-tight">
                   {p.title}
@@ -263,7 +263,7 @@ function Portfolio() {
                   {(p.toolsUsed || []).map((tool) => (
                     <span
                       key={tool}
-                      className="rounded-full bg-ink-base/5 px-2.5 py-1 text-xs font-medium text-ink-muted"
+                      className="rounded-full bg-surface-soft px-2.5 py-1 text-xs font-medium text-ink-muted"
                     >
                       {tool}
                     </span>

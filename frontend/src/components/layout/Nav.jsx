@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Briefcase, Calculator, ClipboardCheck, Plug } from "lucide-react";
+import {
+  Briefcase,
+  Calculator,
+  ClipboardCheck,
+  Moon,
+  Plug,
+  Sun,
+} from "lucide-react";
 import Button from "../ui/Button";
 
 const links = [
@@ -10,13 +17,38 @@ const links = [
 ];
 
 const glassPill =
-  "bg-ink-base/[0.07] backdrop-blur-xl border border-ink-base/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_8px_32px_rgba(17,17,17,0.07)]";
+  "bg-panel-base/[0.07] backdrop-blur-xl border border-surface-strong shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_8px_32px_rgba(17,17,17,0.07)]";
+
+function getInitialTheme() {
+  if (typeof document === "undefined") {
+    return "light";
+  }
+
+  return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+}
+
+function applyTheme(theme) {
+  const root = document.documentElement;
+  root.classList.toggle("dark", theme === "dark");
+  root.dataset.theme = theme;
+  try {
+    window.localStorage.setItem("theme", theme);
+  } catch {
+    // The visual theme should still work if storage is unavailable.
+  }
+}
 
 function Nav() {
   const navRef = useRef(null);
   const itemRefs = useRef([]);
   const spotlightRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(null);
+  const [theme, setTheme] = useState(getInitialTheme);
+  const isDark = theme === "dark";
+
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
 
   useEffect(() => {
     const spotlight = spotlightRef.current;
@@ -46,7 +78,7 @@ function Nav() {
           href="#top"
           className={`flex items-center gap-3 rounded-full px-3 py-3 font-semibold text-ink-base lg:pr-5 ${glassPill}`}
         >
-          <span className="grid place-items-center w-10 h-10 rounded-full bg-accent-mint text-ink-base">
+          <span className="grid place-items-center w-10 h-10 rounded-full bg-accent-mint text-accent-contrast">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 2048 2048"
@@ -191,10 +223,39 @@ function Nav() {
           })}
         </nav>
 
-        <div className={`rounded-full p-2 ${glassPill}`}>
-          <Button as="a" href="#contact" size="sm" className="!rounded-full">
-            Book a Call
-          </Button>
+        <div className="flex items-center gap-3">
+          <div className={`hidden rounded-full p-2 md:block ${glassPill}`}>
+            <Button as="a" href="#contact" size="sm" className="!rounded-full">
+              Book a Call
+            </Button>
+          </div>
+
+          <button
+            type="button"
+            aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+            aria-pressed={isDark}
+            onClick={() =>
+              setTheme((current) => (current === "dark" ? "light" : "dark"))
+            }
+            className={`grid h-16 w-16 shrink-0 place-items-center rounded-full p-2 text-ink-base transition duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base ${glassPill}`}
+          >
+            <span className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-accent-mint text-accent-contrast shadow-soft">
+              <Sun
+                size={20}
+                strokeWidth={2.2}
+                className={`absolute transition-all duration-300 ${
+                  isDark ? "scale-50 rotate-90 opacity-0" : "scale-100 opacity-100"
+                }`}
+              />
+              <Moon
+                size={19}
+                strokeWidth={2.2}
+                className={`absolute transition-all duration-300 ${
+                  isDark ? "scale-100 opacity-100" : "scale-50 -rotate-90 opacity-0"
+                }`}
+              />
+            </span>
+          </button>
         </div>
       </div>
     </header>

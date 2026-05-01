@@ -190,7 +190,7 @@ function Services() {
                     {s.title}
                   </h3>
                   <p
-                    className={`mt-3 text-sm leading-relaxed ${s.tone === "default" ? "text-ink-muted" : "text-ink-base/80"}`}
+                    className={`mt-3 text-sm leading-relaxed ${s.tone === "default" ? "text-ink-muted" : "text-accent-contrast/80"}`}
                   >
                     {s.body}
                   </p>

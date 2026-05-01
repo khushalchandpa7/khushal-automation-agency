@@ -1,25 +1,37 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  darkMode: "class",
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
         bg: {
-          base: "#F9F9F6",
+          base: "rgb(var(--color-bg-base) / <alpha-value>)",
+        },
+        surface: {
+          base: "rgb(var(--color-surface-base) / <alpha-value>)",
+          soft: "rgb(var(--color-surface-soft) / <alpha-value>)",
+          border: "rgb(var(--color-surface-border))",
+          strong: "rgb(var(--color-surface-strong))",
+        },
+        panel: {
+          base: "rgb(var(--color-panel-base) / <alpha-value>)",
+          soft: "rgb(var(--color-panel-soft))",
+          text: "rgb(var(--color-panel-text) / <alpha-value>)",
+          muted: "rgb(var(--color-panel-muted))",
         },
         ink: {
-          base: "#111111",
-          muted: "#4A4A4A",
-          subtle: "#7A7A7A",
+          base: "rgb(var(--color-ink-base) / <alpha-value>)",
+          muted: "rgb(var(--color-ink-muted) / <alpha-value>)",
+          subtle: "rgb(var(--color-ink-subtle) / <alpha-value>)",
         },
         accent: {
-          mint: "#00D9A3",
-          "mint-deep": "#00B388",
-          tangerine: "#FF6B35",
-          "tangerine-deep": "#E0521F",
+          mint: "rgb(var(--color-accent-mint) / <alpha-value>)",
+          "mint-deep": "rgb(var(--color-accent-mint-deep) / <alpha-value>)",
+          tangerine: "rgb(var(--color-accent-tangerine) / <alpha-value>)",
+          "tangerine-deep":
+            "rgb(var(--color-accent-tangerine-deep) / <alpha-value>)",
+          contrast: "rgb(var(--color-accent-contrast) / <alpha-value>)",
         },
       },
       fontFamily: {
@@ -38,8 +50,8 @@ export default {
         "3xl": "1.75rem",
       },
       boxShadow: {
-        soft: "0 1px 2px rgba(17,17,17,0.04), 0 4px 12px rgba(17,17,17,0.04)",
-        lift: "0 6px 24px rgba(17,17,17,0.08)",
+        soft: "var(--shadow-soft)",
+        lift: "var(--shadow-lift)",
       },
       maxWidth: {
         container: "1200px",

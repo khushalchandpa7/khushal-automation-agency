@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="w-full border-t border-ink-base/8 mt-16">
+    <footer className="w-full border-t border-surface-border mt-16">
       <div className="max-w-container mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <p className="text-sm text-ink-subtle">
           © {new Date().getFullYear()} Khushal Automation Agency. All rights

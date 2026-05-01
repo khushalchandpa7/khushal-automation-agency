@@ -13,6 +13,18 @@
       name="description"
       content="Custom workflow automations for businesses. Trigger-based workflows, form processing, webhooks, integrations."
     />
+    <script>
+      (() => {
+        try {
+          const savedTheme = window.localStorage.getItem("theme");
+          const theme = savedTheme === "dark" ? "dark" : "light";
+          document.documentElement.classList.toggle("dark", theme === "dark");
+          document.documentElement.dataset.theme = theme;
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

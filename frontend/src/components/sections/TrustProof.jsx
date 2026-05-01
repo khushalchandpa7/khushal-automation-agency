@@ -52,7 +52,7 @@ function TrustProof() {
               <article
                 key={item.title}
                 data-entrance
-                className="rounded-3xl border border-ink-base/8 bg-white p-6 shadow-soft"
+                className="rounded-3xl border border-surface-border bg-surface-base p-6 shadow-soft"
               >
                 <Icon size={22} className="text-accent-mint-deep" />
                 <h3 className="mt-5 text-lg font-semibold">{item.title}</h3>
@@ -66,7 +66,7 @@ function TrustProof() {
 
         <div
           data-entrance
-          className="mt-8 rounded-3xl bg-accent-mint p-7 md:p-8 text-ink-base"
+          className="mt-8 rounded-3xl bg-accent-mint p-7 md:p-8 text-accent-contrast"
         >
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <div className="max-w-2xl">
@@ -91,6 +91,7 @@ function TrustProof() {
                 as="a"
                 href="#audit-quiz"
                 variant="ghost"
+                className="border-accent-contrast/20 text-accent-contrast hover:border-accent-contrast/40 hover:text-accent-contrast"
                 onClick={() => setSourceSection("proof-free-audit")}
               >
                 Get Free Audit

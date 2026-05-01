@@ -4,7 +4,6 @@ import Hero from "./components/sections/Hero";
 import PainSolution from "./components/sections/PainSolution";
 import RoiCalculator from "./components/sections/RoiCalculator";
 import IntegrationStack from "./components/sections/IntegrationStack";
-import Services from "./components/sections/Services";
 import WorkflowDemos from "./components/sections/WorkflowDemos";
 import Portfolio from "./components/sections/Portfolio";
 import AuditQuiz from "./components/sections/AuditQuiz";
@@ -21,7 +20,6 @@ function App() {
         <PainSolution />
         <RoiCalculator />
         <IntegrationStack />
-        <Services />
         <WorkflowDemos />
         <Portfolio />
         <AuditQuiz />
