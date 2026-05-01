@@ -7,7 +7,6 @@ import {
   Plug,
   Sun,
 } from "lucide-react";
-import Button from "../ui/Button";
 
 const links = [
   { href: "#roi-calculator", label: "ROI", Icon: Calculator },
@@ -42,6 +41,7 @@ function Nav() {
   const navRef = useRef(null);
   const itemRefs = useRef([]);
   const spotlightRef = useRef(null);
+  const hoverPlateRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(null);
   const [theme, setTheme] = useState(getInitialTheme);
   const isDark = theme === "dark";
@@ -52,11 +52,13 @@ function Nav() {
 
   useEffect(() => {
     const spotlight = spotlightRef.current;
+    const hoverPlate = hoverPlateRef.current;
     const navEl = navRef.current;
-    if (!spotlight || !navEl) return;
+    if (!spotlight || !hoverPlate || !navEl) return;
 
     if (activeIdx === null) {
       spotlight.style.opacity = "0";
+      hoverPlate.style.opacity = "0";
       return;
     }
 
@@ -69,6 +71,10 @@ function Nav() {
 
     spotlight.style.left = `${x}px`;
     spotlight.style.opacity = "1";
+
+    hoverPlate.style.left = `${x}px`;
+    hoverPlate.style.width = `${itemRect.width + 4}px`;
+    hoverPlate.style.opacity = "1";
   }, [activeIdx]);
 
   return (
@@ -173,7 +179,7 @@ function Nav() {
         <nav
           ref={navRef}
           onMouseLeave={() => setActiveIdx(null)}
-          className={`absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center overflow-hidden rounded-full px-2 py-2 md:flex ${glassPill}`}
+          className={`absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center overflow-hidden rounded-full px-3 py-2 md:flex ${glassPill}`}
         >
           <div
             ref={spotlightRef}
@@ -183,9 +189,24 @@ function Nav() {
               left: "50%",
               transform: "translate(-50%, -50%)",
               background:
-                "radial-gradient(circle, rgba(0,217,163,0.6) 0%, rgba(0,217,163,0.38) 28%, rgba(255,107,53,0.28) 55%, transparent 75%)",
+                "radial-gradient(circle, rgba(0,217,163,0.6) 0%, rgba(0,217,163,0.34) 32%, rgba(255,255,255,0.22) 58%, transparent 75%)",
               transition:
                 "left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease",
+            }}
+          />
+          <div
+            ref={hoverPlateRef}
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-2 left-1/2 rounded-full opacity-0"
+            style={{
+              width: "76px",
+              transform: "translateX(-50%)",
+              background:
+                "linear-gradient(135deg, rgba(0,217,163,0.24), rgba(255,255,255,0.62) 52%, rgba(0,150,115,0.16))",
+              boxShadow:
+                "inset 0 1px 0 rgba(255,255,255,0.82), inset 0 -1px 0 rgba(0,217,163,0.16), 0 10px 28px rgba(0,150,115,0.16)",
+              transition:
+                "left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease",
             }}
           />
 
@@ -198,15 +219,21 @@ function Nav() {
                 href={link.href}
                 ref={(el) => (itemRefs.current[idx] = el)}
                 onMouseEnter={() => setActiveIdx(idx)}
-                className="relative z-10 grid h-12 min-w-[72px] place-items-center px-4"
+                onFocus={() => setActiveIdx(idx)}
+                onBlur={(event) => {
+                  if (!event.currentTarget.parentElement?.contains(event.relatedTarget)) {
+                    setActiveIdx(null);
+                  }
+                }}
+                className="group relative z-10 grid h-12 min-w-[82px] place-items-center overflow-hidden rounded-full px-5 outline-none"
               >
                 <Icon
                   size={20}
                   strokeWidth={2}
                   className={`transition-all duration-300 ${
                     isActive
-                      ? "-translate-y-1.5 fill-accent-mint text-accent-mint-deep"
-                      : "translate-y-0 fill-transparent text-ink-base"
+                      ? "-translate-y-1.5 rotate-[-8deg] scale-110 fill-transparent text-ink-base drop-shadow-[0_6px_12px_rgba(17,17,17,0.18)]"
+                      : "translate-y-0 rotate-0 scale-100 fill-transparent text-ink-base"
                   }`}
                 />
                 <span
@@ -224,12 +251,6 @@ function Nav() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <div className={`hidden rounded-full p-2 md:block ${glassPill}`}>
-            <Button as="a" href="#contact" size="sm" className="!rounded-full">
-              Book a Call
-            </Button>
-          </div>
-
           <button
             type="button"
             aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
