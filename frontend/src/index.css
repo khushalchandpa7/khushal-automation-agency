@@ -115,6 +115,12 @@
     background-color: rgb(var(--color-surface-base) / 0.55);
   }
 
+  .typing-cursor {
+    opacity: 1 !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+  }
+
   .typing-cursor::after {
     content: "";
     display: inline-block;

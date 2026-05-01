@@ -28,25 +28,31 @@ function Hero() {
     const finale = finaleRef.current;
     if (!el) return;
 
+    el.style.opacity = "1";
+    el.style.textDecoration = "none";
+    el.style.textDecorationLine = "none";
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
 
       tasks.forEach((task) => {
-        tl.set(el, { opacity: 1, textDecoration: "none", text: "" })
+        tl.set(el, {
+          opacity: 1,
+          text: "",
+          textDecoration: "none",
+          textDecorationLine: "none",
+        })
           .to(el, {
             duration: Math.max(0.9, task.length * 0.04),
             text: { value: task, delimiter: "" },
             ease: "none",
           })
           .to({}, { duration: 1.3 })
-          .to(el, {
-            duration: 0.3,
-            opacity: 0.55,
-            textDecoration: "line-through",
-            ease: "power2.in",
+          .set(el, {
+            opacity: 1,
+            textDecoration: "none",
+            textDecorationLine: "none",
           })
-          .to({}, { duration: 0.4 })
-          .set(el, { opacity: 1, textDecoration: "none" })
           .to({}, {
             duration: Math.max(1.2, task.length * 0.055),
             ease: "none",
@@ -94,7 +100,7 @@ function Hero() {
             </span>
             <span
               ref={typingRef}
-              className="typing-cursor absolute inset-0 block text-ink-subtle break-words"
+              className="typing-cursor absolute inset-0 block break-words text-ink-subtle"
               aria-live="polite"
               aria-atomic="true"
             />
