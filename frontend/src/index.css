@@ -1,7 +1,12 @@
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
+@import "@fontsource/manrope/latin-400.css";
+@import "@fontsource/manrope/latin-500.css";
+@import "@fontsource/manrope/latin-600.css";
+@import "@fontsource/manrope/latin-700.css";
+@import "@fontsource/space-grotesk/latin-500.css";
+@import "@fontsource/space-grotesk/latin-600.css";
+@import "@fontsource/space-grotesk/latin-700.css";
+@import "@fontsource/jetbrains-mono/latin-500.css";
+@import "@fontsource/jetbrains-mono/latin-600.css";
 
 @tailwind base;
 @tailwind components;
@@ -64,14 +69,24 @@
 
   body {
     @apply bg-bg-base text-ink-base font-sans;
-    font-feature-settings: "ss01", "cv11";
+    font-feature-settings: "kern", "liga", "calt";
     transition:
       background-color 0.25s ease,
       color 0.25s ease;
   }
 
   h1, h2, h3, h4 {
-    @apply font-sans tracking-tight;
+    @apply tracking-tight;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system,
+      "Segoe UI", sans-serif;
+    font-feature-settings: "kern", "liga", "ss01";
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
   }
 
   ::selection {

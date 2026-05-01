@@ -35,14 +35,31 @@ export default {
         },
       },
       fontFamily: {
+        display: [
+          "Space Grotesk",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "sans-serif",
+        ],
         sans: [
-          "Inter",
+          "Manrope",
           "ui-sans-serif",
           "system-ui",
           "-apple-system",
           "Segoe UI",
           "Roboto",
           "sans-serif",
+        ],
+        mono: [
+          "JetBrains Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          "monospace",
         ],
       },
       borderRadius: {
