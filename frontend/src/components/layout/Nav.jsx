@@ -72,8 +72,8 @@ function Nav() {
   }, [activeIdx]);
 
   return (
-    <header className="sticky top-4 z-40 w-full px-4 sm:px-6 lg:px-8 pt-2">
-      <div className="relative flex w-full items-center justify-between">
+    <header className="sticky top-4 z-40 w-full px-6 pt-2">
+      <div className="relative mx-auto flex w-full max-w-container items-center justify-between">
         <a
           href="#top"
           className={`flex items-center gap-3 rounded-full px-3 py-3 font-semibold text-ink-base lg:pr-5 ${glassPill}`}
@@ -244,14 +244,18 @@ function Nav() {
                 size={20}
                 strokeWidth={2.2}
                 className={`absolute transition-all duration-300 ${
-                  isDark ? "scale-50 rotate-90 opacity-0" : "scale-100 opacity-100"
+                  isDark
+                    ? "scale-50 rotate-90 opacity-0"
+                    : "scale-100 opacity-100"
                 }`}
               />
               <Moon
                 size={19}
                 strokeWidth={2.2}
                 className={`absolute transition-all duration-300 ${
-                  isDark ? "scale-100 opacity-100" : "scale-50 -rotate-90 opacity-0"
+                  isDark
+                    ? "scale-100 opacity-100"
+                    : "scale-50 -rotate-90 opacity-0"
                 }`}
               />
             </span>

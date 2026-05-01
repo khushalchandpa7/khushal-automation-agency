@@ -99,6 +99,29 @@
   .bg-white\/45 {
     background-color: rgb(var(--color-surface-base) / 0.55);
   }
+
+  .typing-cursor::after {
+    content: "";
+    display: inline-block;
+    width: 0.08em;
+    height: 0.9em;
+    margin-left: 0.08em;
+    transform: translateY(0.11em);
+    background-color: rgb(var(--color-accent-mint-deep));
+    animation: typing-caret-blink 0.85s steps(1, end) infinite;
+  }
+}
+
+@keyframes typing-caret-blink {
+  0%,
+  48% {
+    opacity: 1;
+  }
+
+  49%,
+  100% {
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

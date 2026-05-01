@@ -12,6 +12,11 @@ const tasks = [
   "Chasing follow-ups that already replied…",
 ];
 
+const longestTask = tasks.reduce(
+  (a, b) => (a.length >= b.length ? a : b),
+  "",
+);
+
 function Hero() {
   const rootRef = useEntrance({ stagger: 0.1, y: 32 });
   const typingRef = useRef(null);
@@ -24,27 +29,31 @@ function Hero() {
     if (!el) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.4 });
+      const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
 
       tasks.forEach((task) => {
-        tl.to(el, {
-          duration: Math.max(0.9, task.length * 0.035),
-          text: { value: task, delimiter: "" },
-          ease: "none",
-        })
-          .to({}, { duration: 1.4 })
+        tl.set(el, { opacity: 1, textDecoration: "none", text: "" })
           .to(el, {
-            duration: 0.35,
-            opacity: 0.35,
+            duration: Math.max(0.9, task.length * 0.04),
+            text: { value: task, delimiter: "" },
+            ease: "none",
+          })
+          .to({}, { duration: 1.3 })
+          .to(el, {
+            duration: 0.3,
+            opacity: 0.55,
             textDecoration: "line-through",
             ease: "power2.in",
           })
-          .to(el, {
-            duration: 0.25,
-            text: { value: "", delimiter: "" },
-            opacity: 1,
-            textDecoration: "none",
+          .to({}, { duration: 0.4 })
+          .set(el, { opacity: 1, textDecoration: "none" })
+          .to({}, {
+            duration: Math.max(1.2, task.length * 0.055),
             ease: "none",
+            onUpdate: function () {
+              const n = Math.round(task.length * (1 - this.progress()));
+              el.textContent = task.substring(0, n);
+            },
           });
       });
 
@@ -64,7 +73,7 @@ function Hero() {
     <section
       id="top"
       ref={rootRef}
-      className="relative w-full pt-16 md:pt-24 pb-24 md:pb-32 px-6 overflow-hidden"
+      className="relative w-full pt-10 md:pt-20 pb-24 md:pb-32 px-6 overflow-hidden"
     >
       <div className="max-w-container mx-auto">
         <p
@@ -79,18 +88,19 @@ function Hero() {
           className="text-5xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-tight leading-[0.95] text-ink-base max-w-4xl"
         >
           <span className="block">Stop doing</span>
-          <span
-            className="relative block h-[3.05em] sm:h-[2.05em]"
-            aria-live="polite"
-            aria-atomic="true"
-          >
+          <span className="relative block">
+            <span aria-hidden="true" className="invisible block break-words">
+              {longestTask}
+            </span>
             <span
               ref={typingRef}
-              className="absolute inset-x-0 top-0 block text-ink-subtle"
+              className="typing-cursor absolute inset-0 block text-ink-subtle break-words"
+              aria-live="polite"
+              aria-atomic="true"
             />
           </span>
           <span ref={finaleRef} className="block text-accent-mint-deep">
-            Let bots do it.
+            Let AGENTS do it.
           </span>
         </h1>
 
