@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Wand2, Briefcase, Workflow, MessageCircle } from "lucide-react";
+import { Briefcase, Calculator, ClipboardCheck, Plug } from "lucide-react";
 import Button from "../ui/Button";
 
 const links = [
-  { href: "#services", label: "Services", Icon: Wand2 },
+  { href: "#roi-calculator", label: "ROI", Icon: Calculator },
+  { href: "#integrations", label: "Stack", Icon: Plug },
   { href: "#portfolio", label: "Work", Icon: Briefcase },
-  { href: "#process", label: "Process", Icon: Workflow },
-  { href: "#contact", label: "Contact", Icon: MessageCircle },
+  { href: "#audit-quiz", label: "Audit", Icon: ClipboardCheck },
 ];
 
 const glassPill =

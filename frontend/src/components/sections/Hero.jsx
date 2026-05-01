@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Calculator, ClipboardCheck } from "lucide-react";
 import Button from "../ui/Button";
 import { gsap } from "../../lib/gsap";
 import { useEntrance } from "../../hooks/useEntrance";
+import { useIntelligenceStore } from "../../store/intelligenceStore";
 
 const tasks = [
   "Manually copying 200 invoices into Sheets…",
@@ -15,6 +16,7 @@ function Hero() {
   const rootRef = useEntrance({ stagger: 0.1, y: 32 });
   const typingRef = useRef(null);
   const finaleRef = useRef(null);
+  const setSourceSection = useIntelligenceStore((state) => state.setSourceSection);
 
   useEffect(() => {
     const el = typingRef.current;
@@ -102,12 +104,34 @@ function Hero() {
         </p>
 
         <div data-entrance className="mt-10 flex flex-wrap items-center gap-4">
-          <Button as="a" href="#contact" size="lg">
+          <Button
+            as="a"
+            href="#contact"
+            size="lg"
+            onClick={() => setSourceSection("hero-book-call")}
+          >
             Book a Discovery Call
             <ArrowRight size={18} strokeWidth={2.5} />
           </Button>
-          <Button as="a" href="#portfolio" variant="ghost" size="lg">
-            See our work
+          <Button
+            as="a"
+            href="#roi-calculator"
+            variant="ghost"
+            size="lg"
+            onClick={() => setSourceSection("hero-calculate-savings")}
+          >
+            <Calculator size={18} strokeWidth={2.5} />
+            Calculate Savings
+          </Button>
+          <Button
+            as="a"
+            href="#audit-quiz"
+            variant="ghost"
+            size="lg"
+            onClick={() => setSourceSection("hero-free-audit")}
+          >
+            <ClipboardCheck size={18} strokeWidth={2.5} />
+            Get Free Audit
           </Button>
         </div>
 
