@@ -140,7 +140,7 @@ function Nav() {
             </svg>
           </span>
           <span className="hidden lg:inline text-sm whitespace-nowrap">
-            Khushal Automation
+            Khushal Automations
           </span>
         </a>
 
