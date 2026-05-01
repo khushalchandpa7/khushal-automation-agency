@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Khushal Automation Agency backend (Express + Prisma)",
+  "description": "Khushal Automation Agency Backend (Express + Prisma)",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
