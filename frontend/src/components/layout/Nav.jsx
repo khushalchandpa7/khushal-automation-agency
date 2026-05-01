@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Briefcase,
   Calculator,
@@ -39,12 +39,44 @@ function applyTheme(theme) {
 }
 
 function Nav() {
+  const navRef = useRef(null);
+  const itemRefs = useRef([]);
+  const spotlightRef = useRef(null);
+  const hoverPlateRef = useRef(null);
+  const [activeIdx, setActiveIdx] = useState(null);
   const [theme, setTheme] = useState(getInitialTheme);
   const isDark = theme === "dark";
 
   useEffect(() => {
     applyTheme(theme);
   }, [theme]);
+
+  useEffect(() => {
+    const spotlight = spotlightRef.current;
+    const hoverPlate = hoverPlateRef.current;
+    const navEl = navRef.current;
+    if (!spotlight || !hoverPlate || !navEl) return;
+
+    if (activeIdx === null) {
+      spotlight.style.opacity = "0";
+      hoverPlate.style.opacity = "0";
+      return;
+    }
+
+    const item = itemRefs.current[activeIdx];
+    if (!item) return;
+
+    const navRect = navEl.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    const x = itemRect.left - navRect.left + itemRect.width / 2;
+
+    spotlight.style.left = `${x}px`;
+    spotlight.style.opacity = "1";
+
+    hoverPlate.style.left = `${x}px`;
+    hoverPlate.style.width = `${itemRect.width + 4}px`;
+    hoverPlate.style.opacity = "1";
+  }, [activeIdx]);
 
   return (
     <header className="sticky top-4 z-40 w-full px-6 pt-2">
@@ -54,7 +86,12 @@ function Nav() {
           className={`flex items-center gap-3 rounded-full px-3 py-3 font-semibold text-ink-base lg:pr-5 ${glassPill}`}
         >
           <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-accent-mint text-accent-contrast">
-            <img src={logo} alt="" className="h-full w-full" aria-hidden="true" />
+            <img
+              src={logo}
+              alt=""
+              className="h-full w-full"
+              aria-hidden="true"
+            />
           </span>
           <span className="hidden lg:inline text-base whitespace-nowrap">
             Khushal Automations
@@ -96,23 +133,79 @@ function Nav() {
       </div>
 
       <nav
+        ref={navRef}
         aria-label="Primary navigation"
-        className={`absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full p-2 md:flex ${glassPill}`}
+        onMouseLeave={() => setActiveIdx(null)}
+        className={`absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center overflow-hidden rounded-full px-3 py-2 md:flex ${glassPill}`}
       >
-        {links.map((link) => {
+        <div
+          ref={spotlightRef}
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 h-40 w-40 opacity-0 blur-xl"
+          style={{
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            background:
+              "radial-gradient(circle, rgba(0,217,163,0.6) 0%, rgba(0,217,163,0.34) 32%, rgba(255,255,255,0.22) 58%, transparent 75%)",
+            transition:
+              "left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease",
+          }}
+        />
+        <div
+          ref={hoverPlateRef}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-2 left-1/2 rounded-full opacity-0"
+          style={{
+            width: "76px",
+            transform: "translateX(-50%)",
+            background:
+              "linear-gradient(135deg, rgba(0,217,163,0.24), rgba(255,255,255,0.62) 52%, rgba(0,150,115,0.16))",
+            boxShadow:
+              "inset 0 1px 0 rgba(255,255,255,0.82), inset 0 -1px 0 rgba(0,217,163,0.16), 0 10px 28px rgba(0,150,115,0.16)",
+            transition:
+              "left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease",
+          }}
+        />
+
+        {links.map((link, idx) => {
           const Icon = link.Icon;
+          const isActive = activeIdx === idx;
           return (
             <a
               key={link.href}
               href={link.href}
-              className="group inline-flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-ink-muted transition duration-200 hover:-translate-y-0.5 hover:bg-surface-base/70 hover:text-ink-base hover:shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
+              ref={(el) => (itemRefs.current[idx] = el)}
+              onMouseEnter={() => setActiveIdx(idx)}
+              onFocus={() => setActiveIdx(idx)}
+              onBlur={(event) => {
+                if (
+                  !event.currentTarget.parentElement?.contains(
+                    event.relatedTarget,
+                  )
+                ) {
+                  setActiveIdx(null);
+                }
+              }}
+              className="group relative z-10 grid h-12 min-w-[82px] place-items-center overflow-hidden rounded-full px-5 outline-none"
             >
               <Icon
-                size={18}
+                size={20}
                 strokeWidth={2}
-                className="shrink-0 transition-transform duration-200 group-hover:scale-105"
+                className={`transition-all duration-300 ${
+                  isActive
+                    ? "-translate-y-1.5 rotate-[-8deg] scale-110 fill-transparent text-ink-base drop-shadow-[0_6px_12px_rgba(17,17,17,0.18)]"
+                    : "translate-y-0 rotate-0 scale-100 fill-transparent text-ink-base"
+                }`}
               />
-              <span className="whitespace-nowrap">{link.label}</span>
+              <span
+                className={`absolute bottom-1.5 whitespace-nowrap text-[10.5px] font-semibold leading-none tracking-wide text-ink-base transition-all duration-300 ${
+                  isActive
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-1.5 opacity-0"
+                }`}
+              >
+                {link.label}
+              </span>
             </a>
           );
         })}

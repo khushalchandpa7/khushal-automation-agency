@@ -56,7 +56,7 @@ function Footer() {
           </p>
           <a
             href="mailto:khushalchandpa7@gmail.com"
-            className="break-all transition-colors hover:text-ink-base md:text-right"
+            className="transition-colors hover:text-ink-base"
           >
             khushalchandpa7@gmail.com
           </a>
