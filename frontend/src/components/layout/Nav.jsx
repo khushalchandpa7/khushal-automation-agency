@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Wand2,
-  Briefcase,
-  Workflow,
-  MessageCircle,
-} from "lucide-react";
+import { Wand2, Briefcase, Workflow, MessageCircle } from "lucide-react";
 import Button from "../ui/Button";
 
 const links = [
@@ -49,10 +44,9 @@ function Nav() {
       <div className="relative flex w-full items-center justify-between">
         <a
           href="#top"
-          className={`flex items-center gap-3 rounded-full px-3 py-2 font-semibold text-ink-base lg:pr-5 ${glassPill}`}
+          className={`flex items-center gap-3 rounded-full px-3 py-3 font-semibold text-ink-base lg:pr-5 ${glassPill}`}
         >
           <span className="grid place-items-center w-10 h-10 rounded-full bg-accent-mint text-ink-base">
-            {/* <img src="./logo-KA.png" alt="Khushal Automation Logo Icon" /> */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 2048 2048"
