@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { submitLead } from "../lib/api";
+import { getUtmCampaign, useIntelligenceStore } from "./intelligenceStore";
 
 const initialForm = {
   name: "",
@@ -40,6 +41,22 @@ function validateClient(form) {
   return errors;
 }
 
+function buildLeadPayload(form) {
+  const intelligence = useIntelligenceStore.getState();
+  const quizRecommendation = intelligence.quiz?.recommendation?.title;
+
+  return {
+    ...form,
+    sourceSection: intelligence.lastSourceSection || "lead-form",
+    selectedPainPoint: intelligence.selectedPainPoint || undefined,
+    roiMonthlyLoss: intelligence.roi?.monthlyLoss,
+    roiPayload: intelligence.roi || undefined,
+    quizAnswers: intelligence.quiz?.answers || undefined,
+    recommendedAutomation: quizRecommendation || undefined,
+    utmCampaign: getUtmCampaign(),
+  };
+}
+
 export const useLeadStore = create((set, get) => ({
   form: { ...initialForm },
   status: "idle", // 'idle' | 'submitting' | 'success' | 'error'
@@ -78,7 +95,7 @@ export const useLeadStore = create((set, get) => ({
 
     set({ status: "submitting", fieldErrors: {}, errorMessage: null });
     try {
-      const lead = await submitLead(form);
+      const lead = await submitLead(buildLeadPayload(form));
       set({ status: "success", errorMessage: null });
       return lead;
     } catch (err) {

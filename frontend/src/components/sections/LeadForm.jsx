@@ -82,6 +82,13 @@ function LeadForm() {
               />
               <span>If we're not the right fit, we'll tell you who is.</span>
             </li>
+            <li className="flex gap-3">
+              <CheckCircle2
+                size={18}
+                className="text-accent-mint-deep flex-shrink-0 mt-0.5"
+              />
+              <span>Calculator and audit answers come through with your request.</span>
+            </li>
           </ul>
         </div>
 
