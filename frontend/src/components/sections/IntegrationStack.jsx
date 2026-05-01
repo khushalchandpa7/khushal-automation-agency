@@ -15,9 +15,6 @@ const integrations = [
   { name: "Gmail", category: "Inbox", icon: "gmail", color: "EA4335" },
   { name: "HubSpot", category: "CRM", icon: "hubspot", color: "FF7A59" },
   { name: "Shopify", category: "Commerce", icon: "shopify", color: "7AB55C" },
-  { name: "Zapier", category: "Automation", icon: "zapier", color: "FF4F00" },
-  { name: "Make", category: "Automation", icon: "make", color: "6D00CC" },
-  { name: "n8n", category: "Automation", icon: "n8n", color: "EA4B71" },
   { name: "OpenAI", category: "AI", icon: "openai", color: "111111" },
   { name: "Stripe", category: "Payments", icon: "stripe", color: "635BFF" },
   {
