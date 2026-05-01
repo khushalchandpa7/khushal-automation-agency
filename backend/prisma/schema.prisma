@@ -8,15 +8,24 @@ datasource db {
 }
 
 model Lead {
-  id         String   @id @default(uuid())
-  name       String
-  email      String
-  company    String?
-  painPoints String
-  status     String   @default("NEW")
-  createdAt  DateTime @default(now())
+  id                    String   @id @default(uuid())
+  name                  String
+  email                 String
+  company               String?
+  painPoints            String
+  status                String   @default("NEW")
+  sourceSection         String?
+  selectedPainPoint     String?
+  roiMonthlyLoss        Int?
+  roiPayload            Json?
+  quizAnswers           Json?
+  recommendedAutomation String?
+  leadScore             Int      @default(0)
+  utmCampaign           Json?
+  createdAt             DateTime @default(now())
 
   @@index([status])
+  @@index([leadScore])
   @@index([createdAt])
 }
 

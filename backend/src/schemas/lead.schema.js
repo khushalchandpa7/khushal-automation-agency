@@ -1,5 +1,7 @@
 const { z } = require("zod");
 
+const optionalJsonObject = z.record(z.string(), z.unknown()).optional();
+
 const createLeadSchema = z.object({
   name: z
     .string()
@@ -27,6 +29,13 @@ const createLeadSchema = z.object({
   // We accept ANY value here so the route can return a fake 201 without tipping off bots.
   // The actual silent-skip logic lives in routes/leads.js.
   website: z.string().max(200).optional(),
+  sourceSection: z.string().trim().max(100).optional(),
+  selectedPainPoint: z.string().trim().max(300).optional(),
+  roiMonthlyLoss: z.number().int().nonnegative().max(100000000).optional(),
+  roiPayload: optionalJsonObject,
+  quizAnswers: optionalJsonObject,
+  recommendedAutomation: z.string().trim().max(160).optional(),
+  utmCampaign: optionalJsonObject,
 });
 
 module.exports = { createLeadSchema };
