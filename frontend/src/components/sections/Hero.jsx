@@ -76,15 +76,18 @@ function Hero() {
           data-entrance
           className="text-5xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-tight leading-[0.95] text-ink-base max-w-4xl"
         >
-          Stop doing
-          <br className="hidden md:block" />
+          <span className="block">Stop doing</span>
           <span
-            ref={typingRef}
-            className="text-ink-subtle inline-block min-h-[1em]"
+            className="relative block h-[3.05em] sm:h-[2.05em]"
             aria-live="polite"
-          />
-          <br />
-          <span ref={finaleRef} className="text-accent-mint-deep">
+            aria-atomic="true"
+          >
+            <span
+              ref={typingRef}
+              className="absolute inset-x-0 top-0 block text-ink-subtle"
+            />
+          </span>
+          <span ref={finaleRef} className="block text-accent-mint-deep">
             Let bots do it.
           </span>
         </h1>
