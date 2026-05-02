@@ -105,7 +105,7 @@ function Nav() {
             onClick={() =>
               setTheme((current) => (current === "dark" ? "light" : "dark"))
             }
-            className={`grid h-16 w-16 shrink-0 place-items-center rounded-full p-2 text-ink-base transition duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base ${glassPill}`}
+            className={`grid h-16 w-16 shrink-0 place-items-center rounded-full p-2 text-ink-base transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base ${glassPill}`}
           >
             <span className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-accent-mint text-accent-contrast shadow-soft">
               <Sun

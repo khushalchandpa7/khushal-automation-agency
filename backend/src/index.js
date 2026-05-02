@@ -13,7 +13,7 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:5173";
 app.use(cors({ origin: CORS_ORIGIN, credentials: true }));
 app.use(express.json({ limit: "100kb" }));
 
-app.get("/health", (_req, res) => {
+app.get("/", (_req, res) => {
   res.json({ ok: true });
 });
 
