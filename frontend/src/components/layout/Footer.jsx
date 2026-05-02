@@ -18,7 +18,7 @@ function Footer() {
               <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-accent-mint shadow-soft">
                 <img
                   src={logo}
-                  alt="Khushal Automations logo"
+                  alt="Khushal Automation Agency logo"
                   className="h-full w-full"
                 />
               </span>

@@ -1,0 +1,17 @@
+# https://khushalautomation.com — robots.txt
+# TODO: replace hostname in the Sitemap line with the production domain before launch.
+
+User-agent: *
+Allow: /
+
+# Block common scrapers from training-data crawls (optional — remove these if you want them indexed)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+Sitemap: https://khushalautomation.com/sitemap.xml

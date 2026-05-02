@@ -85,9 +85,8 @@ function Nav() {
           <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-accent-mint text-accent-contrast">
             <img
               src={logo}
-              alt=""
+              alt="Khushal Automation Agency logo"
               className="h-full w-full"
-              aria-hidden="true"
             />
           </span>
           <span className="hidden lg:inline text-base whitespace-nowrap">
