@@ -157,6 +157,7 @@ function Nav() {
             width: "76px",
             transform: "translateX(-50%)",
             background: "var(--glass-nav-plate-bg)",
+            borderTop: "1px solid var(--glass-nav-plate-top-border)",
             boxShadow: "var(--glass-nav-plate-shadow)",
             transition:
               "left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease",
@@ -187,9 +188,12 @@ function Nav() {
               <Icon
                 size={20}
                 strokeWidth={2}
+                style={{
+                  filter: isActive ? "var(--glass-nav-icon-filter)" : "none",
+                }}
                 className={`transition-all duration-300 ${
                   isActive
-                    ? "-translate-y-1.5 rotate-[-8deg] scale-110 fill-transparent text-ink-base drop-shadow-[0_6px_12px_rgba(17,17,17,0.18)]"
+                    ? "-translate-y-1.5 rotate-[-8deg] scale-110 fill-transparent text-ink-base"
                     : "translate-y-0 rotate-0 scale-100 fill-transparent text-ink-base"
                 }`}
               />
