@@ -16,8 +16,7 @@ const links = [
   { href: "#audit-quiz", label: "Audit", Icon: ClipboardCheck },
 ];
 
-const glassPill =
-  "bg-panel-base/[0.07] backdrop-blur-xl border border-surface-strong shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_8px_32px_rgba(17,17,17,0.07)]";
+const glassPill = "glass-pill";
 
 function getInitialTheme() {
   if (typeof document === "undefined") {
@@ -145,8 +144,7 @@ function Nav() {
           style={{
             left: "50%",
             transform: "translate(-50%, -50%)",
-            background:
-              "radial-gradient(circle, rgba(0,217,163,0.6) 0%, rgba(0,217,163,0.34) 32%, rgba(255,255,255,0.22) 58%, transparent 75%)",
+            background: "var(--glass-nav-glow)",
             transition:
               "left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease",
           }}
@@ -158,10 +156,8 @@ function Nav() {
           style={{
             width: "76px",
             transform: "translateX(-50%)",
-            background:
-              "linear-gradient(135deg, rgba(0,217,163,0.24), rgba(255,255,255,0.62) 52%, rgba(0,150,115,0.16))",
-            boxShadow:
-              "inset 0 1px 0 rgba(255,255,255,0.82), inset 0 -1px 0 rgba(0,217,163,0.16), 0 10px 28px rgba(0,150,115,0.16)",
+            background: "var(--glass-nav-plate-bg)",
+            boxShadow: "var(--glass-nav-plate-shadow)",
             transition:
               "left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease",
           }}

@@ -6,12 +6,18 @@ const { createLeadSchema } = require("../schemas/lead.schema");
 
 const router = express.Router();
 
+const ROI_SCORE_THRESHOLDS_INR = {
+  high: 800000,
+  medium: 400000,
+  low: 80000,
+};
+
 function calculateLeadScore(lead) {
   let score = 20;
 
-  if (lead.roiMonthlyLoss >= 10000) score += 35;
-  else if (lead.roiMonthlyLoss >= 5000) score += 25;
-  else if (lead.roiMonthlyLoss >= 1000) score += 15;
+  if (lead.roiMonthlyLoss >= ROI_SCORE_THRESHOLDS_INR.high) score += 35;
+  else if (lead.roiMonthlyLoss >= ROI_SCORE_THRESHOLDS_INR.medium) score += 25;
+  else if (lead.roiMonthlyLoss >= ROI_SCORE_THRESHOLDS_INR.low) score += 15;
 
   const quizAnswerCount = lead.quizAnswers
     ? Object.keys(lead.quizAnswers).length

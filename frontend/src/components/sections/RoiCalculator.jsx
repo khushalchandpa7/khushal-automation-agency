@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Calculator, Clock3, DollarSign, Users } from "lucide-react";
+import { ArrowRight, Calculator, Clock3, IndianRupee, Users } from "lucide-react";
 import SectionWrap from "../ui/SectionWrap";
 import Button from "../ui/Button";
 import { useEntrance } from "../../hooks/useEntrance";
@@ -16,9 +16,9 @@ const toolOptions = [
   "Stripe",
 ];
 
-const formatter = new Intl.NumberFormat("en-US", {
+const formatter = new Intl.NumberFormat("en-IN", {
   style: "currency",
-  currency: "USD",
+  currency: "INR",
   maximumFractionDigits: 0,
 });
 
@@ -29,7 +29,7 @@ function RoiCalculator() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [inputs, setInputs] = useState({
     hoursPerWeek: 12,
-    hourlyCost: 45,
+    hourlyCost: 1200,
     peopleInvolved: 3,
     toolStack: ["Google Sheets", "Slack"],
   });
@@ -49,6 +49,7 @@ function RoiCalculator() {
 
     setRoi({
       ...inputs,
+      currency: "INR",
       monthlyLoss,
       annualLoss,
     });
@@ -81,7 +82,7 @@ function RoiCalculator() {
         id="roi-calculator"
         eyebrow="Automation ROI"
         title="Find the cost of manual work before another week slips by."
-        lede="Put rough numbers into the calculator and turn vague frustration into a dollar figure your team can act on."
+        lede="Put rough numbers into the calculator and turn vague frustration into a rupee figure your team can act on."
       >
         <div className="grid lg:grid-cols-5 gap-6">
           <div
@@ -106,17 +107,23 @@ function RoiCalculator() {
 
               <label className="block rounded-2xl border border-surface-strong p-5">
                 <span className="flex items-center gap-2 text-sm font-semibold">
-                  <DollarSign size={17} className="text-accent-mint-deep" />
+                  <IndianRupee size={17} className="text-accent-mint-deep" />
                   Hourly team cost
                 </span>
-                <input
-                  type="number"
-                  min="10"
-                  max="500"
-                  value={inputs.hourlyCost}
-                  onChange={(e) => updateField("hourlyCost", e.target.value)}
-                  className="mt-4 w-full bg-transparent text-4xl font-semibold outline-none"
-                />
+                <div className="mt-4 flex items-center gap-2">
+                  <span className="text-3xl font-semibold text-ink-subtle">
+                    ₹
+                  </span>
+                  <input
+                    type="number"
+                    min="100"
+                    max="10000"
+                    step="100"
+                    value={inputs.hourlyCost}
+                    onChange={(e) => updateField("hourlyCost", e.target.value)}
+                    className="w-full bg-transparent text-4xl font-semibold outline-none"
+                  />
+                </div>
               </label>
 
               <label className="block rounded-2xl border border-surface-strong p-5">
