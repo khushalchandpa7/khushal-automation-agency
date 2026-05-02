@@ -2,18 +2,10 @@ import { useEffect, useRef } from "react";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 import SectionWrap from "../ui/SectionWrap";
 import Button from "../ui/Button";
+import FormField from "../ui/FormField";
 import { useLeadStore } from "../../store/leadStore";
 import { useEntrance } from "../../hooks/useEntrance";
 import { gsap } from "../../lib/gsap";
-
-function FieldError({ messages }) {
-  if (!messages || messages.length === 0) return null;
-  return (
-    <p className="mt-2 text-sm text-accent-tangerine-deep">
-      {messages[0]}
-    </p>
-  );
-}
 
 function LeadForm() {
   const { form, setField, submit, status, fieldErrors, errorMessage, reset } =
@@ -138,81 +130,49 @@ function LeadForm() {
                 />
               </div>
 
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-ink-base mb-2"
-                >
-                  Name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => setField("name", e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full px-4 py-3 rounded-xl border border-surface-strong focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors"
-                  placeholder="Your name"
-                />
-                <FieldError messages={fieldErrors.name} />
-              </div>
+              <FormField
+                id="name"
+                label="Name"
+                value={form.name}
+                onChange={(e) => setField("name", e.target.value)}
+                disabled={isSubmitting}
+                placeholder="Your name"
+                errors={fieldErrors.name}
+              />
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-ink-base mb-2"
-                >
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setField("email", e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full px-4 py-3 rounded-xl border border-surface-strong focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors"
-                  placeholder="you@company.com"
-                />
-                <FieldError messages={fieldErrors.email} />
-              </div>
+              <FormField
+                id="email"
+                label="Email"
+                type="email"
+                value={form.email}
+                onChange={(e) => setField("email", e.target.value)}
+                disabled={isSubmitting}
+                placeholder="you@company.com"
+                errors={fieldErrors.email}
+              />
 
-              <div>
-                <label
-                  htmlFor="company"
-                  className="block text-sm font-medium text-ink-base mb-2"
-                >
-                  Company <span className="text-ink-subtle font-normal">(optional)</span>
-                </label>
-                <input
-                  id="company"
-                  type="text"
-                  value={form.company}
-                  onChange={(e) => setField("company", e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full px-4 py-3 rounded-xl border border-surface-strong focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors"
-                  placeholder="Acme Co."
-                />
-                <FieldError messages={fieldErrors.company} />
-              </div>
+              <FormField
+                id="company"
+                label="Company"
+                optional
+                value={form.company}
+                onChange={(e) => setField("company", e.target.value)}
+                disabled={isSubmitting}
+                placeholder="Acme Co."
+                errors={fieldErrors.company}
+              />
 
-              <div>
-                <label
-                  htmlFor="painPoints"
-                  className="block text-sm font-medium text-ink-base mb-2"
-                >
-                  What routine do you want gone?
-                </label>
-                <textarea
-                  id="painPoints"
-                  rows={4}
-                  value={form.painPoints}
-                  onChange={(e) => setField("painPoints", e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full px-4 py-3 rounded-xl border border-surface-strong focus:border-accent-mint focus:ring-2 focus:ring-accent-mint/30 outline-none transition-colors resize-none"
-                  placeholder="e.g. Every Monday I copy 200 invoices from email into a spreadsheet, then chase down line items that don't match…"
-                />
-                <FieldError messages={fieldErrors.painPoints} />
-              </div>
+              <FormField
+                id="painPoints"
+                label="What routine do you want gone?"
+                type="textarea"
+                rows={4}
+                value={form.painPoints}
+                onChange={(e) => setField("painPoints", e.target.value)}
+                disabled={isSubmitting}
+                placeholder="e.g. Every Monday I copy 200 invoices from email into a spreadsheet, then chase down line items that don't match…"
+                errors={fieldErrors.painPoints}
+              />
 
               {errorMessage && Object.keys(fieldErrors).length === 0 && (
                 <p className="text-sm text-accent-tangerine-deep">

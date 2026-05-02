@@ -24,8 +24,9 @@ app.use((_req, res) => {
   res.status(404).json({ error: "Not found" });
 });
 
-app.use((err, _req, res, _next) => {
-  console.error("[error]", err);
+app.use((err, req, res, _next) => {
+  const stack = err && err.stack ? err.stack : err;
+  console.error(`[error] ${req.method} ${req.originalUrl}`, stack);
 
   if (err && err.code === "P2002") {
     return res.status(409).json({ error: "Duplicate entry" });

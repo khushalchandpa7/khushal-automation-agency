@@ -1,0 +1,33 @@
+export const integrations = [
+  { name: "Airtable", category: "Ops data", icon: "airtable", color: "18BFFF" },
+  { name: "Notion", category: "Knowledge", icon: "notion", color: "000000" },
+  {
+    name: "Google Sheets",
+    category: "Reporting",
+    icon: "googlesheets",
+    color: "34A853",
+  },
+  { name: "Jira", category: "Project tracking", icon: "jira", color: "0052CC" },
+  {
+    name: "Monday.com",
+    category: "Work management",
+    icon: "monday",
+    color: "F62B54",
+  },
+  { name: "Slack", category: "Alerts", icon: "slack", color: "4A154B" },
+  { name: "Gmail", category: "Inbox", icon: "gmail", color: "EA4335" },
+  { name: "HubSpot", category: "CRM", icon: "hubspot", color: "FF7A59" },
+  { name: "Shopify", category: "Commerce", icon: "shopify", color: "7AB55C" },
+  { name: "OpenAI", category: "AI", icon: "openai", color: "111111" },
+  { name: "Gemini", category: "AI", icon: "gemini", color: "4893FC" },
+  { name: "Claude AI", category: "AI", icon: "claude", color: "D97757" },
+  { name: "Power BI", category: "Analytics", icon: "powerbi", color: "F2C811" },
+  { name: "GitHub", category: "Dev workflow", icon: "github", color: "181717" },
+  { name: "Stripe", category: "Payments", icon: "stripe", color: "635BFF" },
+  {
+    name: "Calendly",
+    category: "Scheduling",
+    icon: "calendly",
+    color: "006BFF",
+  },
+];

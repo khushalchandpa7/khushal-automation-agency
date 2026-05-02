@@ -16,8 +16,6 @@ const links = [
   { href: "#audit-quiz", label: "Audit", Icon: ClipboardCheck },
 ];
 
-const glassPill = "glass-pill";
-
 function getInitialTheme() {
   if (typeof document === "undefined") {
     return "light";
@@ -82,7 +80,7 @@ function Nav() {
       <div className="relative mx-auto flex w-full max-w-container items-center justify-between">
         <a
           href="#top"
-          className={`flex items-center gap-3 rounded-full px-3 py-3 font-semibold text-ink-base lg:pr-5 ${glassPill}`}
+          className="glass-pill flex items-center gap-3 rounded-full px-3 py-3 font-semibold text-ink-base lg:pr-5"
         >
           <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-accent-mint text-accent-contrast">
             <img
@@ -105,7 +103,7 @@ function Nav() {
             onClick={() =>
               setTheme((current) => (current === "dark" ? "light" : "dark"))
             }
-            className={`grid h-16 w-16 shrink-0 place-items-center rounded-full p-2 text-ink-base transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base ${glassPill}`}
+            className="glass-pill grid h-16 w-16 shrink-0 place-items-center rounded-full p-2 text-ink-base transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
           >
             <span className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-full bg-accent-mint text-accent-contrast shadow-soft">
               <Sun
@@ -135,7 +133,7 @@ function Nav() {
         ref={navRef}
         aria-label="Primary navigation"
         onMouseLeave={() => setActiveIdx(null)}
-        className={`absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center overflow-hidden rounded-full px-3 py-2 md:flex ${glassPill}`}
+        className="glass-pill absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center overflow-hidden rounded-full px-3 py-2 md:flex"
       >
         <div
           ref={spotlightRef}
