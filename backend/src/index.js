@@ -8,9 +8,31 @@ const portfolioRouter = require("./routes/portfolio");
 const app = express();
 
 const PORT = process.env.PORT || 4000;
-const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:5173";
 
-app.use(cors({ origin: CORS_ORIGIN, credentials: true }));
+// CORS_ORIGIN accepts a single origin or a comma-separated list.
+// In production, list the deployed frontend URL plus any preview domains, e.g.:
+//   CORS_ORIGIN=https://khushalautomation.com,https://khushal-automation-agency.vercel.app
+const ALLOWED_ORIGINS = (process.env.CORS_ORIGIN || "http://localhost:5173")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Allow same-origin/server-to-server requests (no Origin header) and
+      // any origin in the allowlist.
+      if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`CORS: origin ${origin} is not allowed`));
+    },
+    credentials: true,
+  }),
+);
+// Render terminates TLS at its edge proxy. Trust the first proxy hop so
+// req.ip and secure cookies behave correctly in production.
+app.set("trust proxy", 1);
 app.use(express.json({ limit: "100kb" }));
 
 app.get("/", (_req, res) => {
@@ -37,5 +59,5 @@ app.use((err, req, res, _next) => {
 
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
-  console.log(`CORS origin: ${CORS_ORIGIN}`);
+  console.log(`CORS origins: ${ALLOWED_ORIGINS.join(", ")}`);
 });
