@@ -28,8 +28,7 @@ const LEAD_SCORE_WEIGHTS = {
   cap: 100,
 };
 
-const normalizeCompany = (value) =>
-  value && value.length > 0 ? value : null;
+const normalizeCompany = (value) => (value && value.length > 0 ? value : null);
 
 /**
  * Score a lead 0-100 from base + ROI tier + quiz completeness
