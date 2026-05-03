@@ -1,6 +1,7 @@
 const express = require("express");
 const crypto = require("crypto");
 const prisma = require("../lib/prisma");
+const { notifyNewLead } = require("../lib/notifyLead");
 const { validate } = require("../middleware/validate");
 const { createLeadSchema } = require("../schemas/lead.schema");
 
@@ -126,6 +127,24 @@ router.post("/", validate(createLeadSchema), async (req, res, next) => {
         recommendedAutomation: true,
         createdAt: true,
       },
+    });
+
+    // Fire-and-forget email notification. notifyNewLead never throws.
+    notifyNewLead({
+      id: lead.id,
+      name,
+      email,
+      company: normalizedCompany,
+      painPoints,
+      sourceSection,
+      selectedPainPoint,
+      roiMonthlyLoss,
+      roiPayload,
+      quizAnswers,
+      recommendedAutomation,
+      leadScore,
+      utmCampaign,
+      createdAt: lead.createdAt,
     });
 
     res.status(201).json(lead);

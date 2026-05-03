@@ -8,6 +8,9 @@ import { useEntrance } from "../../hooks/useEntrance";
 function Portfolio() {
   const [projects, setProjects] = useState([]);
   const [status, setStatus] = useState("loading");
+  // After a few seconds, show a "waking up" hint — Render free-tier backends
+  // cold-start in 30-60s, so silent loading looks broken.
+  const [showWakingHint, setShowWakingHint] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const ref = useEntrance({
     stagger: 0.08,
@@ -17,6 +20,10 @@ function Portfolio() {
 
   useEffect(() => {
     let cancelled = false;
+    const wakingTimer = setTimeout(() => {
+      if (!cancelled) setShowWakingHint(true);
+    }, 4000);
+
     fetchPortfolio()
       .then((data) => {
         if (cancelled) return;
@@ -29,6 +36,7 @@ function Portfolio() {
       });
     return () => {
       cancelled = true;
+      clearTimeout(wakingTimer);
     };
   }, []);
 
@@ -42,7 +50,9 @@ function Portfolio() {
       >
         {status === "loading" && (
           <p data-entrance className="text-ink-subtle">
-            Loading recent work...
+            {showWakingHint
+              ? "Waking up the server (free-tier cold start, ~30s)..."
+              : "Loading recent work..."}
           </p>
         )}
 
