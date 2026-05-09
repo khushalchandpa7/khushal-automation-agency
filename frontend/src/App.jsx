@@ -3,21 +3,16 @@ import Nav from "./components/layout/Nav";
 import Hero from "./components/sections/Hero";
 import PainSolution from "./components/sections/PainSolution";
 import SEO from "./components/seo/SEO";
+import { RiyaBookingProvider } from "./components/ui/RiyaBookingProvider";
 
-const RoiCalculator = lazy(() =>
-  import("./components/sections/RoiCalculator"),
+const RoiCalculator = lazy(() => import("./components/sections/RoiCalculator"));
+const IntegrationStack = lazy(
+  () => import("./components/sections/IntegrationStack"),
 );
-const IntegrationStack = lazy(() =>
-  import("./components/sections/IntegrationStack"),
-);
-const WorkflowDemos = lazy(() =>
-  import("./components/sections/WorkflowDemos"),
-);
+const WorkflowDemos = lazy(() => import("./components/sections/WorkflowDemos"));
 const Portfolio = lazy(() => import("./components/sections/Portfolio"));
-const AuditQuiz = lazy(() => import("./components/sections/AuditQuiz"));
 const Process = lazy(() => import("./components/sections/Process"));
 const TrustProof = lazy(() => import("./components/sections/TrustProof"));
-const LeadForm = lazy(() => import("./components/sections/LeadForm"));
 const Footer = lazy(() => import("./components/layout/Footer"));
 
 function SectionSkeleton() {
@@ -26,27 +21,27 @@ function SectionSkeleton() {
 
 function App() {
   return (
-    <div className="min-h-screen bg-bg-base">
-      <SEO />
-      <Nav />
-      <main aria-label="Main content">
-        <Hero />
-        <PainSolution />
+    <RiyaBookingProvider>
+      <div className="min-h-screen bg-bg-base">
+        <SEO />
+        <Nav />
+        <main aria-label="Main content">
+          <Hero />
+          <PainSolution />
+          <Suspense fallback={<SectionSkeleton />}>
+            <RoiCalculator />
+            <IntegrationStack />
+            <WorkflowDemos />
+            <Portfolio />
+            <Process />
+            <TrustProof />
+          </Suspense>
+        </main>
         <Suspense fallback={<SectionSkeleton />}>
-          <RoiCalculator />
-          <IntegrationStack />
-          <WorkflowDemos />
-          <Portfolio />
-          <AuditQuiz />
-          <Process />
-          <TrustProof />
-          <LeadForm />
+          <Footer />
         </Suspense>
-      </main>
-      <Suspense fallback={<SectionSkeleton />}>
-        <Footer />
-      </Suspense>
-    </div>
+      </div>
+    </RiyaBookingProvider>
   );
 }
 

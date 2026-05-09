@@ -4,8 +4,7 @@ const links = [
   { href: "#roi-calculator", label: "ROI" },
   { href: "#integrations", label: "Stack" },
   { href: "#portfolio", label: "Work" },
-  { href: "#audit-quiz", label: "Audit" },
-  { href: "#contact", label: "Contact" },
+  { href: "#process", label: "Process" },
 ];
 
 function Footer() {

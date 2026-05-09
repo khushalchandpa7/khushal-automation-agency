@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowRight, Calculator, Clock3, IndianRupee, Users } from "lucide-react";
 import SectionWrap from "../ui/SectionWrap";
 import Button from "../ui/Button";
 import { useEntrance } from "../../hooks/useEntrance";
-import { useIntelligenceStore } from "../../store/intelligenceStore";
+import { useRiyaBooking } from "../ui/useRiyaBooking";
 
 const toolOptions = [
   "Google Sheets",
@@ -24,9 +24,7 @@ const formatter = new Intl.NumberFormat("en-IN", {
 
 function RoiCalculator() {
   const ref = useEntrance({ stagger: 0.08, y: 28 });
-  const setRoi = useIntelligenceStore((state) => state.setRoi);
-  const setSourceSection = useIntelligenceStore((state) => state.setSourceSection);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const { startCall } = useRiyaBooking();
   const [inputs, setInputs] = useState({
     hoursPerWeek: 12,
     hourlyCost: 1200,
@@ -44,19 +42,7 @@ function RoiCalculator() {
 
   const annualLoss = monthlyLoss * 12;
 
-  useEffect(() => {
-    if (!hasInteracted) return;
-
-    setRoi({
-      ...inputs,
-      currency: "INR",
-      monthlyLoss,
-      annualLoss,
-    });
-  }, [annualLoss, hasInteracted, inputs, monthlyLoss, setRoi]);
-
   function updateField(field, value) {
-    setHasInteracted(true);
     setInputs((current) => ({
       ...current,
       [field]: Number(value),
@@ -64,7 +50,6 @@ function RoiCalculator() {
   }
 
   function toggleTool(tool) {
-    setHasInteracted(true);
     setInputs((current) => {
       const hasTool = current.toolStack.includes(tool);
       return {
@@ -196,13 +181,12 @@ function RoiCalculator() {
             </div>
 
             <Button
-              as="a"
-              href="#contact"
+              type="button"
               size="md"
               className="mt-7 w-full"
-              onClick={() => setSourceSection("roi-calculator-cta")}
+              onClick={startCall}
             >
-              Get a Free Automation Audit
+              Book a Meeting
               <ArrowRight size={18} />
             </Button>
           </aside>

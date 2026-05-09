@@ -2,18 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import {
   Briefcase,
   Calculator,
-  ClipboardCheck,
+  ClipboardList,
   Moon,
   Plug,
   Sun,
 } from "lucide-react";
+import BookCallButton from "../ui/BookCallButton";
 import logo from "../../assets/svg/logo-KA.svg";
 
 const links = [
   { href: "#roi-calculator", label: "ROI", Icon: Calculator },
   { href: "#integrations", label: "Stack", Icon: Plug },
   { href: "#portfolio", label: "Work", Icon: Briefcase },
-  { href: "#audit-quiz", label: "Audit", Icon: ClipboardCheck },
+  { href: "#process", label: "Process", Icon: ClipboardList },
 ];
 
 function getInitialTheme() {
@@ -95,6 +96,7 @@ function Nav() {
         </a>
 
         <div className="flex items-center gap-3">
+          <BookCallButton />
           <button
             type="button"
             aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}

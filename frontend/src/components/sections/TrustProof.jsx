@@ -8,7 +8,7 @@ import {
 import SectionWrap from "../ui/SectionWrap";
 import Button from "../ui/Button";
 import { useEntrance } from "../../hooks/useEntrance";
-import { useIntelligenceStore } from "../../store/intelligenceStore";
+import { useRiyaBooking } from "../ui/useRiyaBooking";
 
 const proofSignals = [
   {
@@ -35,7 +35,7 @@ const proofSignals = [
 
 function TrustProof() {
   const ref = useEntrance({ stagger: 0.08, y: 28 });
-  const setSourceSection = useIntelligenceStore((state) => state.setSourceSection);
+  const { startCall } = useRiyaBooking();
 
   return (
     <div ref={ref}>
@@ -75,7 +75,8 @@ function TrustProof() {
                 Better first step
               </div>
               <h3 className="mt-3 text-2xl font-semibold">
-                Not ready to book? Start with the calculator or the audit.
+                Ready to remove the manual work? Start with the calculator or
+                book a meeting with Riya.
               </h3>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -83,18 +84,16 @@ function TrustProof() {
                 as="a"
                 href="#roi-calculator"
                 variant="secondary"
-                onClick={() => setSourceSection("proof-calculate-savings")}
               >
                 Calculate Savings
               </Button>
               <Button
-                as="a"
-                href="#audit-quiz"
+                type="button"
                 variant="ghost"
                 className="border-accent-contrast/20 text-accent-contrast hover:border-accent-contrast/40 hover:text-accent-contrast"
-                onClick={() => setSourceSection("proof-free-audit")}
+                onClick={startCall}
               >
-                Get Free Audit
+                Book a Meeting
               </Button>
             </div>
           </div>
