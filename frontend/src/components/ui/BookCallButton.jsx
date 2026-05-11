@@ -33,9 +33,7 @@ export default function BookCallButton() {
   const { status, isBusy, startCall, endCall } = useRiyaBooking();
   const { accent, icon, label } = STATE_CONFIG[status];
   const ariaLabel =
-    status === "active"
-      ? "End call with Riya"
-      : "Book a meeting with Khushal";
+    status === "active" ? "End call with Riya" : "Book a meeting with Khushal";
 
   function handleClick() {
     if (status === "active") {
