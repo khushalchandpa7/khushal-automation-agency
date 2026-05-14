@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import VapiPkg from "@vapi-ai/web";
-import { Loader2, Mic2, PhoneCall, PhoneOff } from "lucide-react";
+import { Loader2, Mic2, PhoneCall, PhoneOff, X } from "lucide-react";
 import { RiyaBookingContext } from "./useRiyaBooking";
 
 // CJS/ESM interop: Vite's pre-bundler wraps @vapi-ai/web's CJS default export.
@@ -103,7 +103,13 @@ function RiyaWave({ status, volume, isSpeaking }) {
   );
 }
 
-function RiyaCallPanel({ status, volume, isSpeaking, onPrimaryAction }) {
+function RiyaCallPanel({
+  status,
+  volume,
+  isSpeaking,
+  onPrimaryAction,
+  onCancel,
+}) {
   if (status === "idle") return null;
 
   const copy = PANEL_COPY[status];
@@ -126,6 +132,15 @@ function RiyaCallPanel({ status, volume, isSpeaking, onPrimaryAction }) {
         <span className="absolute -bottom-32 left-6 h-72 w-72 rounded-full bg-accent-tangerine/10 blur-3xl" />
         <span className="absolute inset-x-0 top-0 h-px bg-panel-soft" />
       </div>
+
+      <button
+        type="button"
+        onClick={onCancel}
+        className="absolute right-[max(1rem,env(safe-area-inset-right))] top-[max(1rem,env(safe-area-inset-top))] z-10 grid h-touch-lg w-touch-lg place-items-center rounded-full border border-panel-soft bg-panel-base/70 text-panel-text shadow-soft backdrop-blur-xl transition duration-300 can-hover:hover:border-accent-mint/50 can-hover:hover:text-accent-mint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-panel-base sm:h-12 sm:w-12"
+        aria-label="Cancel call and return home"
+      >
+        <X size={20} strokeWidth={2.2} />
+      </button>
 
       <div className="relative mx-auto grid h-[calc(100svh-2rem)] max-w-3xl grid-rows-[auto_minmax(0,1fr)_auto] items-center gap-3 sm:h-[calc(100svh-3rem)] sm:gap-5">
         <header className="min-h-0">
@@ -159,8 +174,8 @@ function RiyaCallPanel({ status, volume, isSpeaking, onPrimaryAction }) {
             disabled={isBusy}
             className={`mt-4 inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-2xl px-6 py-4 text-sm font-semibold text-accent-contrast shadow-soft transition duration-300 disabled:cursor-not-allowed disabled:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-panel-base sm:mt-6 ${
               isError
-                ? "bg-accent-tangerine hover:bg-accent-tangerine-deep"
-                : "bg-accent-mint hover:bg-accent-mint-deep"
+                ? "bg-accent-tangerine can-hover:hover:bg-accent-tangerine-deep active:bg-accent-tangerine-deep"
+                : "bg-accent-mint can-hover:hover:bg-accent-mint-deep active:bg-accent-mint-deep"
             }`}
           >
             {isBusy ? (
@@ -180,6 +195,8 @@ function RiyaCallPanel({ status, volume, isSpeaking, onPrimaryAction }) {
 
 export function RiyaBookingProvider({ children }) {
   const vapiRef = useRef(null);
+  const suppressVapiEventsRef = useRef(false);
+  const suppressVapiEventsTimerRef = useRef(null);
   const [status, setStatus] = useState("idle");
   const [volume, setVolume] = useState(0);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -201,13 +218,24 @@ export function RiyaBookingProvider({ children }) {
     const vapi = new Vapi(PUBLIC_KEY);
     vapiRef.current = vapi;
 
-    const handleCallStart = () => setStatus("active");
+    const handleCallStart = () => {
+      if (suppressVapiEventsRef.current) {
+        vapi.stop();
+        return;
+      }
+
+      setStatus("active");
+    };
     const handleCallEnd = () => {
+      if (suppressVapiEventsRef.current) return;
+
       setStatus("idle");
       setVolume(0);
       setIsSpeaking(false);
     };
     const handleError = (e) => {
+      if (suppressVapiEventsRef.current) return;
+
       console.error("Vapi error:", e);
       setStatus("error");
       setVolume(0);
@@ -235,6 +263,9 @@ export function RiyaBookingProvider({ children }) {
       vapi.removeListener("volume-level", handleVolumeLevel);
       vapi.removeListener("speech-start", handleSpeechStart);
       vapi.removeListener("speech-end", handleSpeechEnd);
+      if (suppressVapiEventsTimerRef.current) {
+        window.clearTimeout(suppressVapiEventsTimerRef.current);
+      }
       vapi.stop();
     };
   }, []);
@@ -245,6 +276,12 @@ export function RiyaBookingProvider({ children }) {
     }
 
     try {
+      if (suppressVapiEventsTimerRef.current) {
+        window.clearTimeout(suppressVapiEventsTimerRef.current);
+        suppressVapiEventsTimerRef.current = null;
+      }
+
+      suppressVapiEventsRef.current = false;
       setStatus("connecting");
       setVolume(0.12);
       setIsSpeaking(false);
@@ -265,6 +302,40 @@ export function RiyaBookingProvider({ children }) {
     vapiRef.current.stop();
   };
 
+  const cancelCall = () => {
+    if (status === "idle") return;
+
+    if (suppressVapiEventsTimerRef.current) {
+      window.clearTimeout(suppressVapiEventsTimerRef.current);
+    }
+
+    suppressVapiEventsRef.current = true;
+    suppressVapiEventsTimerRef.current = window.setTimeout(() => {
+      suppressVapiEventsRef.current = false;
+      suppressVapiEventsTimerRef.current = null;
+    }, 1200);
+
+    if (status === "connecting" || status === "active" || status === "ending") {
+      vapiRef.current?.stop();
+    }
+
+    setStatus("idle");
+    setVolume(0);
+    setIsSpeaking(false);
+
+    if (typeof window !== "undefined") {
+      if (window.location.hash) {
+        window.history.replaceState(
+          null,
+          document.title,
+          `${window.location.pathname}${window.location.search}`,
+        );
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   const panelAction =
     status === "active" ? endCall : status === "error" ? startCall : () => {};
 
@@ -278,6 +349,7 @@ export function RiyaBookingProvider({ children }) {
         volume={volume}
         isSpeaking={isSpeaking}
         onPrimaryAction={panelAction}
+        onCancel={cancelCall}
       />
     </RiyaBookingContext.Provider>
   );

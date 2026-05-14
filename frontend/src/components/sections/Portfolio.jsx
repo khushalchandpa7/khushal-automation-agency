@@ -26,9 +26,11 @@ function Portfolio() {
             <article
               key={p.id}
               data-entrance
-              className="rounded-3xl border border-surface-border bg-surface-base p-8 shadow-soft transition-shadow hover:shadow-lift"
+              className="@container/case rounded-3xl border border-surface-border bg-surface-base p-6 sm:p-8 shadow-soft transition-shadow can-hover:hover:shadow-lift"
             >
-              <h3 className="text-xl font-semibold leading-tight">{p.title}</h3>
+              <h3 className="text-xl @[22rem]/case:text-2xl font-semibold leading-tight">
+                {p.title}
+              </h3>
               <p className="mt-4 text-sm leading-relaxed text-ink-muted">
                 {p.description}
               </p>
@@ -52,7 +54,7 @@ function Portfolio() {
               <button
                 type="button"
                 onClick={() => setSelectedProject(p)}
-                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-ink-base transition-colors hover:text-accent-tangerine-deep"
+                className="mt-6 inline-flex min-h-touch-lg items-center gap-2 text-sm font-semibold text-ink-base transition-colors can-hover:hover:text-accent-tangerine-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint rounded-md"
               >
                 View case study
                 <ArrowUpRight size={16} />

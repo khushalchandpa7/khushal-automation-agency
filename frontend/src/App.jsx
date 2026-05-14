@@ -22,7 +22,7 @@ function SectionSkeleton() {
 function App() {
   return (
     <RiyaBookingProvider>
-      <div className="min-h-screen bg-bg-base">
+      <div className="min-h-svh bg-bg-base">
         <SEO />
         <Nav />
         <main aria-label="Main content">

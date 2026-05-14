@@ -10,7 +10,7 @@ const links = [
 function Footer() {
   return (
     <footer className="mt-16 border-t border-surface-border bg-surface-base">
-      <div className="mx-auto max-w-container px-6 py-10">
+      <div className="mx-auto max-w-container px-gutter py-10">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
             <a href="#top" className="inline-flex items-center gap-3">
@@ -40,7 +40,7 @@ function Footer() {
               <a
                 key={link.href}
                 href={link.href}
-                className="transition-colors hover:text-ink-base"
+                className="inline-flex min-h-touch items-center transition-colors can-hover:hover:text-ink-base focus-visible:text-ink-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint rounded-md"
               >
                 {link.label}
               </a>
@@ -55,7 +55,7 @@ function Footer() {
           </p>
           <a
             href="mailto:khushalchandpa7@gmail.com"
-            className="transition-colors hover:text-ink-base"
+            className="inline-flex min-h-touch items-center transition-colors can-hover:hover:text-ink-base focus-visible:text-ink-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint rounded-md"
           >
             khushalchandpa7@gmail.com
           </a>

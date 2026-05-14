@@ -3,9 +3,11 @@ import {
   Briefcase,
   Calculator,
   ClipboardList,
+  Menu,
   Moon,
   Plug,
   Sun,
+  X,
 } from "lucide-react";
 import BookCallButton from "../ui/BookCallButton";
 import logo from "../../assets/svg/logo-KA.svg";
@@ -41,15 +43,26 @@ function Nav() {
   const itemRefs = useRef([]);
   const spotlightRef = useRef(null);
   const hoverPlateRef = useRef(null);
+  const drawerRef = useRef(null);
+  const hamburgerRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(null);
+  const [isMenuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(getInitialTheme);
   const isDark = theme === "dark";
+  const closeMenu = () => setMenuOpen(false);
 
   useEffect(() => {
     applyTheme(theme);
   }, [theme]);
 
   useEffect(() => {
+    if (
+      typeof window === "undefined" ||
+      !window.matchMedia("(hover: hover) and (pointer: fine)").matches
+    ) {
+      return;
+    }
+
     const spotlight = spotlightRef.current;
     const hoverPlate = hoverPlateRef.current;
     const navEl = navRef.current;
@@ -76,8 +89,47 @@ function Nav() {
     hoverPlate.style.opacity = "1";
   }, [activeIdx]);
 
+  useEffect(() => {
+    document.body.classList.toggle("body-lock", isMenuOpen);
+    return () => document.body.classList.remove("body-lock");
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const drawer = drawerRef.current;
+    const focusables = drawer?.querySelectorAll("a, button");
+    focusables?.[0]?.focus();
+
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        hamburgerRef.current?.focus();
+        return;
+      }
+      if (e.key === "Tab" && focusables?.length) {
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    const onHash = () => setMenuOpen(false);
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
   return (
-    <header className="sticky top-4 z-40 w-full px-6 pt-2">
+    <header className="sticky top-4 z-40 w-full px-gutter pt-2">
       <div className="relative mx-auto flex w-full max-w-container items-center justify-between">
         <a
           href="#top"
@@ -96,6 +148,21 @@ function Nav() {
         </a>
 
         <div className="flex items-center gap-3">
+          <button
+            ref={hamburgerRef}
+            type="button"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-drawer"
+            onClick={() => setMenuOpen((v) => !v)}
+            className="glass-pill grid h-12 w-12 min-h-touch-lg min-w-touch-lg shrink-0 place-items-center rounded-full text-ink-base md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
+          >
+            {isMenuOpen ? (
+              <X size={22} strokeWidth={2.2} />
+            ) : (
+              <Menu size={22} strokeWidth={2.2} />
+            )}
+          </button>
           <BookCallButton />
           <button
             type="button"
@@ -209,6 +276,58 @@ function Nav() {
           );
         })}
       </nav>
+
+      <div
+        id="mobile-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site navigation"
+        className={`fixed inset-0 z-50 md:hidden ${
+          isMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+      >
+        <div
+          onClick={closeMenu}
+          aria-hidden="true"
+          className={`absolute inset-0 bg-panel-base/55 backdrop-blur-md transition-opacity duration-300 ${
+            isMenuOpen ? "opacity-100" : "opacity-0"
+          }`}
+        />
+        <aside
+          ref={drawerRef}
+          className={`glass-pill absolute right-0 top-0 flex h-[100svh] w-[min(86vw,22rem)] flex-col gap-1 rounded-l-3xl rounded-r-none px-6 pb-[max(2rem,env(safe-area-inset-bottom))] pt-8 transition-transform duration-300 ease-out will-change-transform ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="mb-6 flex items-center justify-between">
+            <span className="text-fs-meta font-semibold uppercase tracking-widest text-ink-subtle">
+              Menu
+            </span>
+            <button
+              type="button"
+              onClick={closeMenu}
+              aria-label="Close menu"
+              className="grid h-touch-lg w-touch-lg place-items-center rounded-full text-ink-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint"
+            >
+              <X size={20} strokeWidth={2.2} />
+            </button>
+          </div>
+          {links.map((link) => {
+            const Icon = link.Icon;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={closeMenu}
+                className="flex min-h-touch-lg items-center gap-4 rounded-2xl px-4 py-3 text-fs-lead font-semibold text-ink-base can-hover:hover:bg-surface-soft focus-visible:bg-surface-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint"
+              >
+                <Icon size={22} strokeWidth={2} />
+                {link.label}
+              </a>
+            );
+          })}
+        </aside>
+      </div>
     </header>
   );
 }

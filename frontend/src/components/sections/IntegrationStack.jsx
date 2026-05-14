@@ -21,7 +21,7 @@ function IntegrationStack() {
             <div
               key={tool.name}
               data-entrance
-              className="rounded-2xl border border-surface-border bg-surface-base p-4 shadow-soft hover:border-accent-mint/50 transition-colors"
+              className="rounded-2xl border border-surface-border bg-surface-base p-4 shadow-soft can-hover:hover:border-accent-mint/50 transition-colors"
             >
               <div className="flex items-center gap-3">
                 <BrandIcon tool={tool} />

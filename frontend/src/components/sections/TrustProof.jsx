@@ -90,7 +90,7 @@ function TrustProof() {
               <Button
                 type="button"
                 variant="ghost"
-                className="border-accent-contrast/20 text-accent-contrast hover:border-accent-contrast/40 hover:text-accent-contrast"
+                className="border-accent-contrast/20 text-accent-contrast can-hover:hover:border-accent-contrast/40 can-hover:hover:text-accent-contrast active:border-accent-contrast/40"
                 onClick={startCall}
               >
                 Book a Meeting

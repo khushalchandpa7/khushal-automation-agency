@@ -69,12 +69,12 @@ function RoiCalculator() {
         title="Find the cost of manual work before another week slips by."
         lede="Put rough numbers into the calculator and turn vague frustration into a rupee figure your team can act on."
       >
-        <div className="grid lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8">
           <div
             data-entrance
-            className="lg:col-span-3 rounded-3xl bg-surface-base border border-surface-border p-7 md:p-8 shadow-soft"
+            className="md:col-span-1 lg:col-span-3 rounded-3xl bg-surface-base border border-surface-border p-7 md:p-8 shadow-soft"
           >
-            <div className="grid md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               <label className="block rounded-2xl border border-surface-strong p-5">
                 <span className="flex items-center gap-2 text-sm font-semibold">
                   <Clock3 size={17} className="text-accent-mint-deep" />
@@ -141,10 +141,11 @@ function RoiCalculator() {
                       key={tool}
                       type="button"
                       onClick={() => toggleTool(tool)}
-                      className={`rounded-full border px-3 py-2 text-sm font-medium transition-colors ${
+                      aria-pressed={selected}
+                      className={`inline-flex min-h-touch items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint ${
                         selected
                           ? "border-accent-mint bg-accent-mint/20 text-ink-base"
-                          : "border-surface-strong bg-surface-soft text-ink-muted hover:border-accent-mint/50"
+                          : "border-surface-strong bg-surface-soft text-ink-muted can-hover:hover:border-accent-mint/50"
                       }`}
                     >
                       {tool}
@@ -157,7 +158,7 @@ function RoiCalculator() {
 
           <aside
             data-entrance
-            className="lg:col-span-2 rounded-3xl bg-panel-base p-7 md:p-8 text-panel-text shadow-lift"
+            className="md:col-span-1 lg:col-span-2 rounded-3xl bg-panel-base p-7 md:p-8 text-panel-text shadow-lift"
           >
             <div className="flex items-center gap-3">
               <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent-mint text-accent-contrast">

@@ -1,8 +1,19 @@
 /** @type {import('tailwindcss').Config} */
+import containerQueries from "@tailwindcss/container-queries";
+
 export default {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    screens: {
+      xs: "360px",
+      sm: "480px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+      "3xl": "1920px",
+    },
     extend: {
       colors: {
         bg: {
@@ -73,7 +84,52 @@ export default {
       maxWidth: {
         container: "1200px",
       },
+      spacing: {
+        "section-y": "var(--space-section)",
+        gutter: "var(--space-gutter)",
+        touch: "44px",
+        "touch-lg": "48px",
+      },
+      minWidth: {
+        touch: "44px",
+        "touch-lg": "48px",
+      },
+      minHeight: {
+        touch: "44px",
+        "touch-lg": "48px",
+        svh: "100svh",
+        lvh: "100lvh",
+        dvh: "100dvh",
+      },
+      height: {
+        "touch-lg": "48px",
+        svh: "100svh",
+        lvh: "100lvh",
+        dvh: "100dvh",
+      },
+      width: {
+        "touch-lg": "48px",
+      },
+      fontSize: {
+        "fs-display": [
+          "var(--fs-display)",
+          { lineHeight: "0.95", letterSpacing: "-0.02em" },
+        ],
+        "fs-h1": ["var(--fs-h1)", { lineHeight: "1.05" }],
+        "fs-h2": ["var(--fs-h2)", { lineHeight: "1.15" }],
+        "fs-h3": ["var(--fs-h3)", { lineHeight: "1.25" }],
+        "fs-lead": ["var(--fs-lead)", { lineHeight: "1.55" }],
+        "fs-body": ["var(--fs-body)", { lineHeight: "1.6" }],
+        "fs-meta": ["var(--fs-meta)", { lineHeight: "1.5" }],
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    containerQueries,
+    function ({ addVariant }) {
+      addVariant("can-hover", "@media (hover: hover) and (pointer: fine)");
+      addVariant("no-hover", "@media (hover: none)");
+      addVariant("hocus", ["&:hover", "&:focus-visible"]);
+    },
+  ],
 };

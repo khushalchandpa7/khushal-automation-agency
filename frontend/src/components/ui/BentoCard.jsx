@@ -53,7 +53,7 @@ function BentoCard({
       ref={ref}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
-      className={`relative rounded-3xl p-7 md:p-8 shadow-soft hover:shadow-lift transition-shadow duration-300 will-change-transform ${sizeMap[size]} ${toneMap[tone]} ${className}`}
+      className={`@container/bento relative rounded-3xl p-7 md:p-8 shadow-soft can-hover:hover:shadow-lift transition-shadow duration-300 will-change-transform ${sizeMap[size]} ${toneMap[tone]} ${className}`}
       {...rest}
     >
       {children}

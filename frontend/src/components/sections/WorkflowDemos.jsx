@@ -55,7 +55,7 @@ function WorkflowDemos() {
         title="See the kind of systems we put behind the scenes."
         lede="These mini maps show what your team experiences: one trigger starts a reliable chain of extraction, validation, updates, and alerts."
       >
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8">
           {demos.map((demo) => (
             <article
               key={demo.title}

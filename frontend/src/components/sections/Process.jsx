@@ -36,16 +36,16 @@ function Process() {
       title="From first call to live workflow in 2–4 weeks."
       lede="No bloated SOWs, no agency hand-offs between four account managers. You work directly with the person building it."
     >
-      <ol className="grid md:grid-cols-4 gap-6">
+      <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
         {steps.map((step, i) => {
           const Icon = step.icon;
           return (
             <li
               key={step.title}
               data-entrance
-              className="rounded-3xl border border-surface-border p-7 bg-surface-base hover:border-accent-mint/40 hover:-translate-y-1 transition-all duration-300"
+              className="@container/step rounded-3xl border border-surface-border p-7 bg-surface-base can-hover:hover:border-accent-mint/40 can-hover:hover:-translate-y-1 transition-all duration-300"
             >
-              <div className="flex items-center justify-between mb-5">
+              <div className="flex flex-col gap-3 mb-5 @[18rem]/step:flex-row @[18rem]/step:items-center @[18rem]/step:justify-between @[18rem]/step:gap-0">
                 <span className="text-xs font-mono font-semibold text-ink-subtle">
                   STEP 0{i + 1}
                 </span>

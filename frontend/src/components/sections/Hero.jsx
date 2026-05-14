@@ -79,19 +79,19 @@ function Hero() {
     <section
       id="top"
       ref={rootRef}
-      className="relative w-full pt-10 md:pt-20 pb-24 md:pb-32 px-6 overflow-hidden"
+      className="relative w-full overflow-hidden px-gutter pt-section-y pb-section-y"
     >
       <div className="max-w-container mx-auto">
         <p
           data-entrance
-          className="text-xs font-semibold tracking-widest uppercase text-accent-mint-deep mb-6"
+          className="text-fs-meta font-semibold tracking-widest uppercase text-accent-mint-deep mb-6"
         >
           AI Automation Agency
         </p>
 
         <h1
           data-entrance
-          className="text-5xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-tight leading-[0.95] text-ink-base max-w-4xl"
+          className="text-fs-display font-semibold tracking-tight leading-[0.95] text-ink-base max-w-4xl"
         >
           <span className="block">Stop doing</span>
           <span className="relative block">
@@ -112,14 +112,14 @@ function Hero() {
 
         <p
           data-entrance
-          className="mt-8 text-xl text-ink-muted max-w-2xl leading-relaxed"
+          className="mt-8 text-fs-lead text-ink-muted max-w-2xl leading-relaxed"
         >
           We replace your most repetitive daily routines with custom automations
           that run themselves — triggers, form processing, webhooks, and clean
           integrations across the tools you already use.
         </p>
 
-        <div data-entrance className="mt-10 flex flex-wrap items-center gap-4">
+        <div data-entrance className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
           <Button
             type="button"
             size="lg"

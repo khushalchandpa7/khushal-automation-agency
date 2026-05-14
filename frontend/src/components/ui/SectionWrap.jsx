@@ -2,7 +2,7 @@ function SectionWrap({ id, eyebrow, title, lede, children, className = "" }) {
   return (
     <section
       id={id}
-      className={`w-full py-20 md:py-28 px-6 ${className}`}
+      className={`w-full px-gutter py-section-y scroll-mt-[6rem] ${className}`}
     >
       <div className="max-w-container mx-auto">
         {(eyebrow || title || lede) && (
@@ -10,7 +10,7 @@ function SectionWrap({ id, eyebrow, title, lede, children, className = "" }) {
             {eyebrow && (
               <p
                 data-entrance
-                className="text-xs font-semibold tracking-widest uppercase text-accent-mint-deep mb-4"
+                className="text-fs-meta font-semibold tracking-widest uppercase text-accent-mint-deep mb-4"
               >
                 {eyebrow}
               </p>
@@ -18,7 +18,7 @@ function SectionWrap({ id, eyebrow, title, lede, children, className = "" }) {
             {title && (
               <h2
                 data-entrance
-                className="text-3xl md:text-5xl font-semibold tracking-tight text-ink-base"
+                className="text-fs-h1 font-semibold tracking-tight text-ink-base"
               >
                 {title}
               </h2>
@@ -26,7 +26,7 @@ function SectionWrap({ id, eyebrow, title, lede, children, className = "" }) {
             {lede && (
               <p
                 data-entrance
-                className="mt-5 text-lg text-ink-muted leading-relaxed"
+                className="mt-5 text-fs-lead text-ink-muted leading-relaxed"
               >
                 {lede}
               </p>

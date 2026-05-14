@@ -144,7 +144,7 @@ function PainSolution() {
         <div className="grid md:grid-cols-2 gap-6">
           <div
             ref={beforeRef}
-            className="rounded-3xl border border-surface-strong p-8 bg-surface-base"
+            className="rounded-3xl border border-surface-strong p-6 sm:p-8 bg-surface-base"
           >
             <div className="flex items-center gap-3 mb-6">
               <FileWarning size={20} className="text-accent-tangerine" />
@@ -159,7 +159,7 @@ function PainSolution() {
             </ul>
           </div>
 
-          <div ref={afterRef} className="rounded-3xl bg-panel-base text-panel-text p-8">
+          <div ref={afterRef} className="rounded-3xl bg-panel-base text-panel-text p-6 sm:p-8">
             <div className="flex items-center gap-3 mb-6">
               <FolderCheck size={20} className="text-accent-mint" />
               <h3 className="font-semibold text-lg">The way it should be</h3>

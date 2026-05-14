@@ -23,7 +23,7 @@ function CaseStudyModal({ project, onClose }) {
       onMouseDown={onClose}
     >
       <div
-        className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-surface-base p-6 shadow-lift md:p-8"
+        className="max-h-[90svh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-surface-base p-6 shadow-lift md:p-8"
         onMouseDown={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-6">
@@ -41,7 +41,7 @@ function CaseStudyModal({ project, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-full border border-surface-strong bg-surface-base text-ink-muted transition-colors hover:text-ink-base"
+            className="grid h-touch-lg w-touch-lg flex-shrink-0 place-items-center rounded-full border border-surface-strong bg-surface-base text-ink-muted transition-colors can-hover:hover:text-ink-base focus-visible:text-ink-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint"
             aria-label="Close case study"
           >
             <X size={18} />
