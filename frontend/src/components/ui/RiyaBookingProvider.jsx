@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import VapiPkg from "@vapi-ai/web";
-import { Loader2, Mic2, PhoneCall, PhoneOff, X } from "lucide-react";
+import { Copy, ExternalLink, Loader2, Mic2, MicOff, PhoneCall, PhoneOff, X } from "lucide-react";
 import { RiyaBookingContext } from "./useRiyaBooking";
+import { checkWebRTCSupport, primeMicrophonePermission } from "../../lib/webrtcSupport";
 
 // CJS/ESM interop: Vite's pre-bundler wraps @vapi-ai/web's CJS default export.
 // Depending on bundler version, the import may be the class OR { default: class }.
@@ -33,8 +34,20 @@ const PANEL_COPY = {
   error: {
     eyebrow: "Connection issue",
     title: "Riya could not connect",
-    body: "Check microphone permission or try starting the call again.",
+    body: "Something went wrong starting the call. Try again, or check your network.",
     action: "Try again",
+  },
+  "permission-denied": {
+    eyebrow: "Microphone blocked",
+    title: "Mic access is needed",
+    body: "Riya needs your microphone to hear you. Tap the lock or camera icon in your address bar, allow microphone access, then try again.",
+    action: "Try again",
+  },
+  unsupported: {
+    eyebrow: "Browser not supported",
+    title: "Open in your system browser",
+    body: "",
+    action: "Close",
   },
 };
 
@@ -103,10 +116,100 @@ function RiyaWave({ status, volume, isSpeaking }) {
   );
 }
 
+function UnsupportedPanelBody({ supportInfo }) {
+  const [copied, setCopied] = useState(false);
+
+  const info = supportInfo || {};
+  const inApp = info.inAppBrowser;
+  const recommended = info.recommendedBrowser || "Safari or Chrome";
+  const platform = info.platform || {};
+
+  let headline;
+  let instructions;
+
+  if (info.reason === "in-app-browser" && inApp) {
+    headline = `You're inside the ${inApp.label} in-app browser.`;
+    instructions = platform.isIOS
+      ? `Tap the menu (•••) at the top right and choose "Open in ${recommended}" to use the voice agent.`
+      : `Tap the menu (⋮) at the top right and choose "Open in ${recommended}" to use the voice agent.`;
+  } else if (info.reason === "insecure-context") {
+    headline = "This page isn't on a secure (HTTPS) connection.";
+    instructions = "Voice calls require HTTPS. Please reload the page from the secure URL.";
+  } else if (
+    info.reason === "no-mediadevices" ||
+    info.reason === "no-getusermedia" ||
+    info.reason === "no-rtcpeerconnection"
+  ) {
+    headline = "Your browser doesn't support voice calls.";
+    instructions = `Please open this page in ${recommended} to talk to Riya.`;
+  } else {
+    headline = "Your browser can't run the voice agent here.";
+    instructions = `Please open this page in ${recommended}.`;
+  }
+
+  const copyLink = async () => {
+    try {
+      const url = window.location.href;
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = url;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // user can long-press the URL bar as a last resort
+    }
+  };
+
+  return (
+    <div className="mx-auto w-full max-w-md text-left">
+      <div className="rounded-2xl border border-panel-soft bg-panel-base/60 p-4 shadow-soft sm:p-5">
+        <div className="flex items-start gap-3">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-panel-soft text-accent-tangerine">
+            <MicOff size={18} strokeWidth={2.2} />
+          </span>
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-panel-text">{headline}</p>
+            <p className="mt-1 text-sm leading-6 text-panel-muted">{instructions}</p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={copyLink}
+          className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-panel-soft bg-panel-base px-4 py-3 text-sm font-medium text-panel-text transition can-hover:hover:border-accent-mint/60 can-hover:hover:text-accent-mint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint"
+          aria-label="Copy page link to paste into your system browser"
+        >
+          {copied ? (
+            <>
+              <ExternalLink size={16} strokeWidth={2.2} />
+              Link copied — paste it in {recommended}
+            </>
+          ) : (
+            <>
+              <Copy size={16} strokeWidth={2.2} />
+              Copy link to open in {recommended}
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function RiyaCallPanel({
   status,
   volume,
   isSpeaking,
+  supportInfo,
   onPrimaryAction,
   onCancel,
 }) {
@@ -116,7 +219,8 @@ function RiyaCallPanel({
   const title =
     status === "active" && isSpeaking ? copy.speakingTitle : copy.title;
   const isBusy = status === "connecting" || status === "ending";
-  const isError = status === "error";
+  const isError = status === "error" || status === "permission-denied";
+  const isUnsupported = status === "unsupported";
 
   return (
     <section
@@ -145,7 +249,11 @@ function RiyaCallPanel({
       <div className="relative mx-auto grid h-[calc(100svh-2rem)] max-w-3xl grid-rows-[auto_minmax(0,1fr)_auto] items-center gap-3 sm:h-[calc(100svh-3rem)] sm:gap-5">
         <header className="min-h-0">
           <span className="mx-auto mb-3 grid h-10 w-10 place-items-center rounded-2xl bg-panel-soft text-accent-mint shadow-soft sm:mb-5 sm:h-12 sm:w-12">
-            <Mic2 size={20} strokeWidth={2.2} />
+            {isUnsupported ? (
+              <MicOff size={20} strokeWidth={2.2} />
+            ) : (
+              <Mic2 size={20} strokeWidth={2.2} />
+            )}
           </span>
 
           <p className="text-[10px] font-semibold uppercase tracking-widest text-accent-mint sm:text-xs">
@@ -160,20 +268,26 @@ function RiyaCallPanel({
         </header>
 
         <div className="grid min-h-0 place-items-center py-2">
-          <RiyaWave status={status} volume={volume} isSpeaking={isSpeaking} />
+          {isUnsupported ? (
+            <UnsupportedPanelBody supportInfo={supportInfo} />
+          ) : (
+            <RiyaWave status={status} volume={volume} isSpeaking={isSpeaking} />
+          )}
         </div>
 
         <footer className="mx-auto w-full max-w-lg pb-[max(env(safe-area-inset-bottom),0px)]">
-          <p className="text-sm leading-6 text-panel-muted sm:text-base md:text-lg md:leading-7">
-            {copy.body}
-          </p>
+          {!isUnsupported && (
+            <p className="text-sm leading-6 text-panel-muted sm:text-base md:text-lg md:leading-7">
+              {copy.body}
+            </p>
+          )}
 
           <button
             type="button"
             onClick={onPrimaryAction}
             disabled={isBusy}
             className={`mt-4 inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-2xl px-6 py-4 text-sm font-semibold text-accent-contrast shadow-soft transition duration-300 disabled:cursor-not-allowed disabled:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-panel-base sm:mt-6 ${
-              isError
+              isError || isUnsupported
                 ? "bg-accent-tangerine can-hover:hover:bg-accent-tangerine-deep active:bg-accent-tangerine-deep"
                 : "bg-accent-mint can-hover:hover:bg-accent-mint-deep active:bg-accent-mint-deep"
             }`}
@@ -182,6 +296,8 @@ function RiyaCallPanel({
               <Loader2 size={18} strokeWidth={2.2} className="animate-spin" />
             ) : status === "active" ? (
               <PhoneOff size={18} strokeWidth={2.2} />
+            ) : isUnsupported ? (
+              <X size={18} strokeWidth={2.2} />
             ) : (
               <PhoneCall size={18} strokeWidth={2.2} />
             )}
@@ -195,11 +311,13 @@ function RiyaCallPanel({
 
 export function RiyaBookingProvider({ children }) {
   const vapiRef = useRef(null);
+  const vapiCleanupRef = useRef(null);
   const suppressVapiEventsRef = useRef(false);
   const suppressVapiEventsTimerRef = useRef(null);
   const [status, setStatus] = useState("idle");
   const [volume, setVolume] = useState(0);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [supportInfo, setSupportInfo] = useState(null);
 
   const isBusy = status === "connecting" || status === "ending";
 
@@ -214,7 +332,12 @@ export function RiyaBookingProvider({ children }) {
     };
   }, [status]);
 
-  useEffect(() => {
+  // Lazy Vapi initializer — only constructed once, on first successful gesture.
+  // Avoids any chance of SDK internals touching WebRTC on page load in
+  // environments where it's stubbed/suppressed.
+  const ensureVapi = () => {
+    if (vapiRef.current) return vapiRef.current;
+
     const vapi = new Vapi(PUBLIC_KEY);
     vapiRef.current = vapi;
 
@@ -223,21 +346,24 @@ export function RiyaBookingProvider({ children }) {
         vapi.stop();
         return;
       }
-
       setStatus("active");
     };
     const handleCallEnd = () => {
       if (suppressVapiEventsRef.current) return;
-
       setStatus("idle");
       setVolume(0);
       setIsSpeaking(false);
     };
     const handleError = (e) => {
       if (suppressVapiEventsRef.current) return;
-
       console.error("Vapi error:", e);
-      setStatus("error");
+      const msg = String(e?.message || e?.error || e || "");
+      if (/webrtc/i.test(msg) && /(not supported|suppressed)/i.test(msg)) {
+        setSupportInfo(checkWebRTCSupport());
+        setStatus("unsupported");
+      } else {
+        setStatus("error");
+      }
       setVolume(0);
       setIsSpeaking(false);
     };
@@ -256,22 +382,65 @@ export function RiyaBookingProvider({ children }) {
     vapi.on("speech-start", handleSpeechStart);
     vapi.on("speech-end", handleSpeechEnd);
 
-    return () => {
+    vapiCleanupRef.current = () => {
       vapi.removeListener("call-start", handleCallStart);
       vapi.removeListener("call-end", handleCallEnd);
       vapi.removeListener("error", handleError);
       vapi.removeListener("volume-level", handleVolumeLevel);
       vapi.removeListener("speech-start", handleSpeechStart);
       vapi.removeListener("speech-end", handleSpeechEnd);
+    };
+
+    return vapi;
+  };
+
+  useEffect(() => {
+    return () => {
       if (suppressVapiEventsTimerRef.current) {
         window.clearTimeout(suppressVapiEventsTimerRef.current);
       }
-      vapi.stop();
+      const vapi = vapiRef.current;
+      if (vapi) {
+        vapiCleanupRef.current?.();
+        try {
+          vapi.stop();
+        } catch {
+          // noop
+        }
+      }
     };
   }, []);
 
+  // startCall MUST be called directly from an onClick handler.
+  // Step order is critical for iOS Safari: pre-flight → synchronous mic prime
+  // → only then await Vapi.start.
   const startCall = async () => {
     if (status === "connecting" || status === "ending" || status === "active") {
+      return;
+    }
+
+    const support = checkWebRTCSupport();
+    if (!support.ok) {
+      setSupportInfo(support);
+      setStatus("unsupported");
+      return;
+    }
+
+    setStatus("connecting");
+    setVolume(0.12);
+    setIsSpeaking(false);
+
+    const mic = await primeMicrophonePermission();
+    if (!mic.ok) {
+      if (mic.code === "denied") {
+        setStatus("permission-denied");
+      } else if (mic.code === "insecure" || mic.code === "no-device") {
+        setSupportInfo(checkWebRTCSupport());
+        setStatus("unsupported");
+      } else {
+        setStatus("error");
+      }
+      setVolume(0);
       return;
     }
 
@@ -280,15 +449,18 @@ export function RiyaBookingProvider({ children }) {
         window.clearTimeout(suppressVapiEventsTimerRef.current);
         suppressVapiEventsTimerRef.current = null;
       }
-
       suppressVapiEventsRef.current = false;
-      setStatus("connecting");
-      setVolume(0.12);
-      setIsSpeaking(false);
-      await vapiRef.current.start(ASSISTANT_ID);
+      const vapi = ensureVapi();
+      await vapi.start(ASSISTANT_ID);
     } catch (err) {
       console.error(err);
-      setStatus("error");
+      const msg = String(err?.message || err || "");
+      if (/webrtc/i.test(msg) && /(not supported|suppressed)/i.test(msg)) {
+        setSupportInfo(checkWebRTCSupport());
+        setStatus("unsupported");
+      } else {
+        setStatus("error");
+      }
       setVolume(0);
       setIsSpeaking(false);
     }
@@ -320,6 +492,7 @@ export function RiyaBookingProvider({ children }) {
     }
 
     setStatus("idle");
+    setSupportInfo(null);
     setVolume(0);
     setIsSpeaking(false);
 
@@ -337,7 +510,13 @@ export function RiyaBookingProvider({ children }) {
   };
 
   const panelAction =
-    status === "active" ? endCall : status === "error" ? startCall : () => {};
+    status === "active"
+      ? endCall
+      : status === "error" || status === "permission-denied"
+        ? startCall
+        : status === "unsupported"
+          ? cancelCall
+          : () => {};
 
   return (
     <RiyaBookingContext.Provider
@@ -348,6 +527,7 @@ export function RiyaBookingProvider({ children }) {
         status={status}
         volume={volume}
         isSpeaking={isSpeaking}
+        supportInfo={supportInfo}
         onPrimaryAction={panelAction}
         onCancel={cancelCall}
       />

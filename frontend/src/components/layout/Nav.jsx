@@ -10,7 +10,9 @@ import {
   X,
 } from "lucide-react";
 import BookCallButton from "../ui/BookCallButton";
+import SocialIcon from "../ui/SocialIcon";
 import logo from "../../assets/svg/logo-KA.svg";
+import { socials } from "../../constants/socials";
 
 const links = [
   { href: "#roi-calculator", label: "ROI", Icon: Calculator },
@@ -295,23 +297,40 @@ function Nav() {
         />
         <aside
           ref={drawerRef}
-          className={`glass-pill absolute right-0 top-0 flex h-[100svh] w-[min(86vw,22rem)] flex-col gap-1 rounded-l-3xl rounded-r-none px-6 pb-[max(2rem,env(safe-area-inset-bottom))] pt-8 transition-transform duration-300 ease-out will-change-transform ${
+          className={`absolute right-0 top-0 flex h-[100svh] w-[min(86vw,22rem)] flex-col gap-1 overflow-hidden rounded-l-3xl rounded-r-none border-l border-surface-strong bg-surface-base px-6 pb-[max(2rem,env(safe-area-inset-bottom))] pt-7 shadow-lift transition-transform duration-300 ease-out will-change-transform ${
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="mb-6 flex items-center justify-between">
-            <span className="text-fs-meta font-semibold uppercase tracking-widest text-ink-subtle">
-              Menu
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent-mint/20 blur-3xl"
+          />
+          <div className="relative mb-7 flex items-center justify-between gap-3">
+            <span className="inline-flex items-center gap-2.5">
+              <span className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-full bg-accent-mint shadow-soft">
+                <img
+                  src={logo}
+                  alt=""
+                  aria-hidden="true"
+                  className="h-full w-full"
+                />
+              </span>
+              <span className="font-display text-base font-semibold tracking-tight text-ink-base">
+                Khushal Automations
+              </span>
             </span>
             <button
               type="button"
               onClick={closeMenu}
               aria-label="Close menu"
-              className="grid h-touch-lg w-touch-lg place-items-center rounded-full text-ink-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint"
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-surface-soft text-ink-muted transition-colors duration-200 can-hover:hover:bg-accent-mint/15 can-hover:hover:text-ink-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint"
             >
-              <X size={20} strokeWidth={2.2} />
+              <X size={16} strokeWidth={2.2} />
             </button>
           </div>
+          <span className="relative mb-3 inline-block text-fs-meta font-semibold uppercase tracking-widest text-ink-subtle">
+            Explore
+          </span>
           {links.map((link) => {
             const Icon = link.Icon;
             return (
@@ -319,13 +338,43 @@ function Nav() {
                 key={link.href}
                 href={link.href}
                 onClick={closeMenu}
-                className="flex min-h-touch-lg items-center gap-4 rounded-2xl px-4 py-3 text-fs-lead font-semibold text-ink-base can-hover:hover:bg-surface-soft focus-visible:bg-surface-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint"
+                className="group relative flex min-h-touch-lg items-center gap-3.5 rounded-2xl border border-transparent px-3 py-2.5 text-fs-lead font-semibold text-ink-base transition-all duration-200 can-hover:hover:-translate-y-0.5 can-hover:hover:border-accent-mint/40 can-hover:hover:bg-accent-mint/10 focus-visible:border-accent-mint/40 focus-visible:bg-accent-mint/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint"
               >
-                <Icon size={22} strokeWidth={2} />
-                {link.label}
+                <span
+                  aria-hidden="true"
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent-mint/15 text-accent-mint-deep transition-all duration-200 group-hover:bg-accent-mint group-hover:text-accent-contrast group-hover:shadow-soft"
+                >
+                  <Icon size={18} strokeWidth={2.2} />
+                </span>
+                <span className="flex-1">{link.label}</span>
               </a>
             );
           })}
+
+          <div className="mt-auto border-t border-surface-strong pt-5">
+            <span className="text-fs-meta font-semibold uppercase tracking-widest text-ink-subtle">
+              Get in touch
+            </span>
+            <div onClick={closeMenu} className="mt-3">
+              <BookCallButton variant="block" />
+            </div>
+            <ul className="m-0 mt-4 flex list-none items-center gap-1 p-0">
+              {socials.map(({ href, label, path }) => (
+                <li key={href}>
+                  <a
+                    href={href}
+                    onClick={closeMenu}
+                    aria-label={label}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    className="grid h-10 w-10 place-items-center rounded-full text-ink-muted transition-all duration-200 can-hover:hover:bg-accent-mint/10 can-hover:hover:text-ink-base can-hover:hover:-translate-y-0.5 focus-visible:bg-accent-mint/10 focus-visible:text-ink-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint"
+                  >
+                    <SocialIcon path={path} label={label} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </aside>
       </div>
     </header>

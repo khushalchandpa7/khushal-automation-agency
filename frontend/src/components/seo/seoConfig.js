@@ -1,5 +1,5 @@
 // TODO: replace SITE_URL with the production domain before deploy.
-export const SITE_URL = "https://khushalautomation.com";
+export const SITE_URL = "https://khushal-automation-agency.vercel.app";
 
 export const DEFAULT_SEO = {
   title: "Khushal Automation Agency | Workflow Automation & AI Agents",

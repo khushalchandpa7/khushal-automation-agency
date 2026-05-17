@@ -6,8 +6,8 @@ const ORG_IMAGE = `${SITE_URL}/og-image.png`;
 
 // TODO: replace placeholder social URLs with real handles before deploy.
 const SOCIAL_LINKS = [
-  "https://www.linkedin.com/in/khushal-chandpa/",
-  "https://github.com/khushalchandpa",
+  "https://www.linkedin.com/in/khushal-chandpa-889268375/",
+  "https://github.com/khushalchandpa7",
 ];
 
 export function buildOrganizationSchema() {
