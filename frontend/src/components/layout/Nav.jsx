@@ -150,21 +150,6 @@ function Nav() {
         </a>
 
         <div className="flex items-center gap-3">
-          <button
-            ref={hamburgerRef}
-            type="button"
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-drawer"
-            onClick={() => setMenuOpen((v) => !v)}
-            className="glass-pill grid h-12 w-12 min-h-touch-lg min-w-touch-lg shrink-0 place-items-center rounded-full text-ink-base md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
-          >
-            {isMenuOpen ? (
-              <X size={22} strokeWidth={2.2} />
-            ) : (
-              <Menu size={22} strokeWidth={2.2} />
-            )}
-          </button>
           <BookCallButton />
           <button
             type="button"
@@ -194,6 +179,23 @@ function Nav() {
                     : "scale-50 -rotate-90 opacity-0"
                 }`}
               />
+            </span>
+          </button>
+          <button
+            ref={hamburgerRef}
+            type="button"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-drawer"
+            onClick={() => setMenuOpen((v) => !v)}
+            className="glass-pill grid h-16 w-16 shrink-0 place-items-center rounded-full p-2 text-ink-base md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg-base"
+          >
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-accent-mint text-accent-contrast shadow-soft">
+              {isMenuOpen ? (
+                <X size={20} strokeWidth={2.2} />
+              ) : (
+                <Menu size={20} strokeWidth={2.2} />
+              )}
             </span>
           </button>
         </div>
